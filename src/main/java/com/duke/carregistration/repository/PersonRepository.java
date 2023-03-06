@@ -1,8 +1,13 @@
 package com.duke.carregistration.repository;
 
 import com.duke.carregistration.entity.Person;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface PersonRepository {
-    public interface UserRepository <Person> {
-    }
+import java.util.List;
+import java.util.UUID;
+
+@Repository
+public interface PersonRepository extends JpaRepository<Person, UUID> {
+//    List<Person> findByPassportNumber(String passportNumber);
 }
