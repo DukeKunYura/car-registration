@@ -8,7 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 import java.util.UUID;
 
 @Entity
-@Table(name = "person")
+@Table(name = "persons")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Person {

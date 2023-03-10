@@ -15,3 +15,5 @@ services:
     container_name: 'java-app'
     ports:
       - '8080:8080'
+
+#  docker run --name java-postgres -p 5432:5432 -e POSTGRES_USER=duke -e POSTGRES_PASSWORD=1234 -e POSTGRES_DB=personal-cars -d postgres:15
