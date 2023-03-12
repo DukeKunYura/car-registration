@@ -1,5 +1,6 @@
 package com.duke.carregistration.entity;
 
+import com.duke.carregistration.dto.PersonDto;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,4 +27,14 @@ public class Person {
     private String surname;
     @Column(name = "patronymic")
     private String patronymic;
+
+    public PersonDto toDto(Person person) {
+        PersonDto dto = new PersonDto();
+        dto.setId(person.getId());
+        dto.setPassportNumber(person.getPassportNumber());
+        dto.setFirstName(person.getFirstName());
+        dto.setSurname(person.getSurname());
+        dto.setPatronymic(person.getPatronymic());
+        return dto;
+    }
 }
