@@ -9,7 +9,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "cars")
 @Data
-//@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Car {
     @Id
     @Column(name = "car_id")
@@ -25,18 +25,7 @@ public class Car {
     private  String model;
     @Column(name = "color")
     private  String color;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "person_id")
     private Person person;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Car )) return false;
-        return id != null && id.equals(((Car) o).getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }
