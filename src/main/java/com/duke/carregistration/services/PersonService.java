@@ -23,8 +23,7 @@ public class PersonService {
 
     public PersonDto getByPassport(String passportNumber) {
         Person person = personRepository.findByPassportNumber(passportNumber);
-        PersonDto dto = person.toDto(person);
-        return dto;
+        return person.toDto(person);
     }
 
     public void addPerson(PersonDto dto) {

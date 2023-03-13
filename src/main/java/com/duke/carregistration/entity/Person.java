@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -27,6 +29,17 @@ public class Person {
     private String surname;
     @Column(name = "patronymic")
     private String patronymic;
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Car> cars = new ArrayList<>();
+
+    public void addCar(Car car) {
+        cars.add(car);
+        car.setPerson(this);
+    }
+    public void removeCar(Car car) {
+        cars.remove(car);
+        car.setPerson(null);
+    }
 
     public PersonDto toDto(Person person) {
         PersonDto dto = new PersonDto();

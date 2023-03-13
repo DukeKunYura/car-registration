@@ -4,7 +4,9 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
-    <include file="001-add-person-table.xml" relativeToChangelogFile="true"/>
-    <include file="002-add-car-table.xml" relativeToChangelogFile="true"/>
-    <include file="003-add-person-column.xml" relativeToChangelogFile="true"/>
+    <changeSet id="003-duke" author="duke">
+        <addColumn tableName="cars">
+            <column name="person_id" type="uuid"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
