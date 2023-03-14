@@ -23,7 +23,7 @@ public class AddPersonalCarTests {
     private UUID personId;
 
     @PostConstruct
-    void addTwoPersonalCar() {
+    void addThreePersonalCar() {
         Person person = new Person();
         person.setPassportNumber("202020");
         person.setFirstName("Gustav");

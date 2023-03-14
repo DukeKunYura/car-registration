@@ -25,6 +25,9 @@ public class PersonService {
         Person person = personRepository.findByPassportNumber(passportNumber);
         return person.toDto(person);
     }
+    public Person getByPassportEntity(String passportNumber) {
+        return personRepository.findByPassportNumber(passportNumber);
+    }
 
     public void addPerson(PersonDto dto) {
         Person person = dto.toEntity(dto);
