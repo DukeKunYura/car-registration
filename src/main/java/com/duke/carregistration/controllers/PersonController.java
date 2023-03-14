@@ -37,5 +37,9 @@ public class PersonController {
         personService.addPerson(dto);
         return  dto;
     }
+    @GetMapping(value = "delete_person")
+    public void deletePerson(@RequestParam(name = "passport", required = true) String passportNumber) {
+        personService.deletePersonWithPassportNumber(passportNumber);
+    }
 
 }

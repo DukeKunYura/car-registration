@@ -31,4 +31,9 @@ public class PersonService {
         personRepository.save(person);
     }
 
+    public void deletePersonWithPassportNumber(String passportNumber) {
+        Person person = personRepository.findByPassportNumber(passportNumber);
+        personRepository.delete(person);
+    }
+
 }
