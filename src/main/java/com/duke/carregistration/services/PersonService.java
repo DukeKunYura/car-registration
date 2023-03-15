@@ -1,6 +1,7 @@
 package com.duke.carregistration.services;
 
 import com.duke.carregistration.dto.PersonDto;
+import com.duke.carregistration.dto.PersonWithCarsDto;
 import com.duke.carregistration.entity.Person;
 import com.duke.carregistration.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,12 @@ public class PersonService {
         Person person = personRepository.findByPassportNumber(passportNumber);
         return person.toDto(person);
     }
+
+    public PersonWithCarsDto getPersonWithCarsByPassport(String passportNumber) {
+        Person person = personRepository.findByPassportNumber(passportNumber);
+        return person.toDtoWithCars(person);
+    }
+
     public Person getByPassportEntity(String passportNumber) {
         return personRepository.findByPassportNumber(passportNumber);
     }

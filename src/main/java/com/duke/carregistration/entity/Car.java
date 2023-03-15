@@ -5,7 +5,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
 
+import com.duke.carregistration.dto.CarDto;
+
 import java.util.UUID;
+
 @Entity
 @Table(name = "cars")
 @Data
@@ -22,10 +25,20 @@ public class Car {
     @Column(name = "brand")
     private String brand;
     @Column(name = "model")
-    private  String model;
+    private String model;
     @Column(name = "color")
-    private  String color;
+    private String color;
     @ManyToOne
     @JoinColumn(name = "person_id")
     private Person person;
+
+    public CarDto toDto(Car car) {
+        CarDto dto = new CarDto();
+        dto.setId(car.getId());
+        dto.setNumber(car.getNumber());
+        dto.setBrand(car.getBrand());
+        dto.setModel(car.getModel());
+        dto.setColor(car.getColor());
+        return dto;
+    }
 }
