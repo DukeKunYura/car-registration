@@ -7,10 +7,13 @@ import com.duke.carregistration.entity.Person;
 import com.duke.carregistration.services.CarRegistrationService;
 import com.duke.carregistration.services.PersonService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.SneakyThrows;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.rmi.ServerException;
 import java.util.List;
 
 @RestController("/")
@@ -71,6 +74,21 @@ public class PersonController {
         car.setNumber(number);
         car.setBrand(brand);
         carRegistrationService.registrationCar(passportNumber, car);
+    }
+
+    @SneakyThrows
+    @PostMapping(path = "person",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PersonDto> create(@RequestBody PersonDto newPerson) {
+
+        PersonDto personDto = newPerson;
+        personService.addPerson(personDto);
+        if (personDto == null) {
+            throw new ServerException("invalid_person");
+        } else {
+            return new ResponseEntity<>(personDto, HttpStatus.CREATED);
+        }
     }
 
 }
