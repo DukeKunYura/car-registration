@@ -1,7 +1,6 @@
 package com.duke.carregistration.dto;
 
 import com.duke.carregistration.entity.Car;
-import com.duke.carregistration.entity.Person;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -17,12 +16,12 @@ public class PersonWithCarsDto {
     private String patronymic;
     private List<CarDto> cars;
 
-    public void setCars(List<Car> cars2) {
-        List<CarDto> carsDtos = new ArrayList<>();
-        for (Car car : cars2) {
-            carsDtos.add(car.toDto(car));
+    public void setCars(List<Car> cars) {
+        List<CarDto> carsListDto = new ArrayList<>();
+        for (Car car : cars) {
+            carsListDto.add(car.toDto(car));
         }
-        this.cars = carsDtos;
+        this.cars = carsListDto;
 
     }
 }

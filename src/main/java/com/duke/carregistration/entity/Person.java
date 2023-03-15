@@ -1,6 +1,5 @@
 package com.duke.carregistration.entity;
 
-import com.duke.carregistration.dto.CarDto;
 import com.duke.carregistration.dto.PersonDto;
 import com.duke.carregistration.dto.PersonWithCarsDto;
 

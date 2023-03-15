@@ -25,23 +25,23 @@ public class PersonController {
     }
 
     @GetMapping(value = "persons")
-    public List<Person> getAll() {
+    public List<Person> getAllEntity() {
         return personService.getAllPersons();
     }
 
     @GetMapping(value = "person_with_cars")
-    public PersonWithCarsDto findPersonWithCarsWithPassportNumber(
+    public PersonWithCarsDto getPersonWithCarsByPassportNumber(
             @RequestParam(name = "passport", required = false) String passportNumber) {
         return personService.getPersonWithCarsByPassport(passportNumber);
     }
 
     @GetMapping(value = "person_with")
-    public PersonDto findWithPassportNumber(@RequestParam(name = "passport", required = false) String passportNumber) {
+    public PersonDto getPersonByPassportNumber(@RequestParam(name = "passport", required = false) String passportNumber) {
         return personService.getByPassport(passportNumber);
     }
 
     @GetMapping(value = "entity_person_with")
-    public Person findWithPassportNumberEntity(
+    public Person getPersonEntityByPassportNumber(
             @RequestParam(name = "passport", required = false) String passportNumber) {
         return personService.getByPassportEntity(passportNumber);
     }
