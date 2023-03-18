@@ -17,38 +17,33 @@ import java.rmi.ServerException;
 import java.util.List;
 
 @RestController("/")
+@CrossOrigin(origins = "http://localhost:8085")
 @RequiredArgsConstructor
 public class PersonController {
     private final PersonService personService;
     private final CarRegistrationService carRegistrationService;
-
     @GetMapping(value = "hou")
     public String getHou() {
         return personService.hou();
     }
-
     @GetMapping(value = "persons")
     public List<Person> getAllEntity() {
         return personService.getAllPersons();
     }
-
     @GetMapping(value = "person_with_cars")
     public PersonWithCarsDto getPersonWithCarsByPassportNumber(
             @RequestParam(name = "passport", required = false) String passportNumber) {
         return personService.getPersonWithCarsByPassport(passportNumber);
     }
-
     @GetMapping(value = "person_with")
     public PersonDto getPersonByPassportNumber(@RequestParam(name = "passport", required = false) String passportNumber) {
         return personService.getByPassport(passportNumber);
     }
-
     @GetMapping(value = "entity_person_with")
     public Person getPersonEntityByPassportNumber(
             @RequestParam(name = "passport", required = false) String passportNumber) {
         return personService.getByPassportEntity(passportNumber);
     }
-
     @GetMapping(value = "add_person")
     public PersonDto addPerson(@RequestParam(name = "passport", required = false) String passportNumber,
             @RequestParam(name = "name", required = false) String firstName,
@@ -60,12 +55,14 @@ public class PersonController {
         personService.addPerson(dto);
         return dto;
     }
-
     @GetMapping(value = "delete_person")
     public void deletePerson(@RequestParam(name = "passport") String passportNumber) {
         personService.deletePersonWithPassportNumber(passportNumber);
     }
-
+    @DeleteMapping(value = "delete_person")
+    public void deletePersonByPassport(@RequestParam(name = "passport") String passportNumber) {
+        personService.deletePersonWithPassportNumber(passportNumber);
+    }
     @GetMapping(value = "registration_car")
     public void registrationCar(@RequestParam(name = "passport") String passportNumber,
             @RequestParam(name = "number") String number,
@@ -75,7 +72,6 @@ public class PersonController {
         car.setBrand(brand);
         carRegistrationService.registrationCar(passportNumber, car);
     }
-
     @SneakyThrows
     @PostMapping(path = "person",
             consumes = MediaType.APPLICATION_JSON_VALUE,
