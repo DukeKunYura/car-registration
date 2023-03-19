@@ -7,45 +7,35 @@ import com.duke.carregistration.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class PersonService {
     private final PersonRepository personRepository;
-
-    public String hou() {
-        return "hou hou";
+    public List<PersonDto> getAllPersons() {
+        List<Person> personList = personRepository.findAll();
+        List<PersonDto> personsListDto = new ArrayList<>();
+        for (Person person : personList) {
+            personsListDto.add(person.toDto(person));
+        }
+        return personsListDto;
     }
-
-    public List<Person> getAllPersons() {
-        return personRepository.findAll();
-    }
-
     public PersonDto getByPassport(String passportNumber) {
         Person person = personRepository.findByPassportNumber(passportNumber);
         return person.toDto(person);
     }
-
     public PersonWithCarsDto getPersonWithCarsByPassport(String passportNumber) {
         Person person = personRepository.findByPassportNumber(passportNumber);
         return person.toDtoWithCars(person);
     }
-
-    public Person getByPassportEntity(String passportNumber) {
-        return personRepository.findByPassportNumber(passportNumber);
-    }
-
     public void addPerson(PersonDto dto) {
         Person person = dto.toEntity(dto);
         personRepository.save(person);
     }
-
     public void deletePersonWithPassportNumber(String passportNumber) {
         Person person = personRepository.findByPassportNumber(passportNumber);
         personRepository.delete(person);
     }
-
 }
