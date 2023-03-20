@@ -1,9 +1,11 @@
 package com.duke.carregistration.controllers;
 
 import com.duke.carregistration.dto.CarDto;
+import com.duke.carregistration.dto.CarWithPersonDto;
 import com.duke.carregistration.dto.PersonDto;
 import com.duke.carregistration.dto.PersonWithCarsDto;
 import com.duke.carregistration.services.CarRegistrationService;
+import com.duke.carregistration.services.CarService;
 import com.duke.carregistration.services.PersonService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -20,26 +22,38 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PersonController {
     private final PersonService personService;
+    private final CarService carService;
     private final CarRegistrationService carRegistrationService;
+
     @GetMapping(value = "persons")
-    public  List<PersonDto> getAllPersons() { return personService.getAllPersons(); }
+    public List<PersonDto> getAllPersons() {
+        return personService.getAllPersons();
+    }
+
     @GetMapping(value = "person_with_cars")
     public PersonWithCarsDto getPersonWithCarsByPassportNumber(
             @RequestParam(name = "passport", required = false) String passportNumber) {
         return personService.getPersonWithCarsByPassport(passportNumber);
     }
+
+    @GetMapping(value = "cars")
+    public List<CarWithPersonDto> getAllCars() {
+        return carService.getAllCarsWithPerson();
+    }
+
     @GetMapping(value = "person")
-    public PersonDto getPersonByPassportNumber(@RequestParam(name = "passport", required = false) String passportNumber) {
+    public PersonDto getPersonByPassportNumber(
+            @RequestParam(name = "passport", required = false) String passportNumber) {
         return personService.getByPassport(passportNumber);
     }
+
     @DeleteMapping(value = "delete_person")
     public void deletePersonByPassport(@RequestParam(name = "passport") String passportNumber) {
         personService.deletePersonWithPassportNumber(passportNumber);
     }
+
     @SneakyThrows
-    @PostMapping(path = "person",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "person", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PersonDto> addPerson(@RequestBody PersonDto newPerson) {
 
         PersonDto personDto = newPerson;
@@ -50,12 +64,11 @@ public class PersonController {
             return new ResponseEntity<>(personDto, HttpStatus.CREATED);
         }
     }
+
     @SneakyThrows
-    @PostMapping(path = "registration_car",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "registration_car", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CarDto> registrationCar(@RequestParam(name = "passport") String passportNumber,
-                                 @RequestBody CarDto newCar) {
+            @RequestBody CarDto newCar) {
         carRegistrationService.registrationCar(passportNumber, newCar);
         if (newCar == null) {
             throw new ServerException("invalid_car");
@@ -63,9 +76,10 @@ public class PersonController {
             return new ResponseEntity<>(newCar, HttpStatus.CREATED);
         }
     }
+
     @DeleteMapping(value = "removal_car")
     public void removeCarByNumber(@RequestParam(name = "passport") String passportNumber,
-                                  @RequestParam(name = "number") String number) {
+            @RequestParam(name = "number") String number) {
         carRegistrationService.removalFromRegisterCar(passportNumber, number);
     }
 }
