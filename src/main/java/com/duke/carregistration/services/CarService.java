@@ -1,6 +1,7 @@
 package com.duke.carregistration.services;
 
 import java.util.List;
+import java.rmi.ServerException;
 import java.util.ArrayList;
 
 import com.duke.carregistration.dto.CarDto;
@@ -11,6 +12,7 @@ import com.duke.carregistration.entity.Car;
 import com.duke.carregistration.repository.CarRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 
 @Service
 @RequiredArgsConstructor
@@ -30,4 +32,20 @@ public class CarService {
         Car car = carRepository.findByNumber(number);
         return car.toDto(car);
     }
+
+    @SneakyThrows
+    public void updateCar(String number, CarDto dto) {
+        Car carExists = carRepository.findByNumber(number);
+        Car carNewExist = carRepository.findByNumber(dto.getNumber());
+        if (carNewExist == null) {
+            carExists.setNumber(dto.getNumber());
+            carExists.setBrand(dto.getBrand());
+            carExists.setModel(dto.getModel());
+            carExists.setColor(dto.getColor());
+            carRepository.save(carExists);
+        } else {
+            // throw new ServerException("invalid_car");
+        }
+    }
+
 }

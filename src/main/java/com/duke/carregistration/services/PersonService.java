@@ -16,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PersonService {
     private final PersonRepository personRepository;
+
     public List<PersonDto> getAllPersons() {
         List<Person> personList = personRepository.findAll();
         List<PersonDto> personsListDto = new ArrayList<>();
@@ -24,14 +25,17 @@ public class PersonService {
         }
         return personsListDto;
     }
+
     public PersonDto getByPassport(String passportNumber) {
         Person person = personRepository.findByPassportNumber(passportNumber);
         return person.toDto(person);
     }
+
     public PersonWithCarsDto getPersonWithCarsByPassport(String passportNumber) {
         Person person = personRepository.findByPassportNumber(passportNumber);
         return person.toDtoWithCars(person);
     }
+
     @SneakyThrows
     public void addPerson(PersonDto dto) {
         Person personExists = personRepository.findByPassportNumber(dto.getPassportNumber());
@@ -39,10 +43,25 @@ public class PersonService {
             Person person = dto.toEntity(dto);
             personRepository.save(person);
         } else {
-            //throw new ServerException("invalid_person");
+            // throw new ServerException("invalid_person");
         }
-
     }
+
+    @SneakyThrows
+    public void updatePerson(String passportNumber, PersonDto dto) {
+        Person personExists = personRepository.findByPassportNumber(passportNumber);
+        Person personNewExist = personRepository.findByPassportNumber(dto.getPassportNumber());
+        if (personNewExist == null) {
+            personExists.setPassportNumber(dto.getPassportNumber());
+            personExists.setFirstName(dto.getFirstName());
+            personExists.setSurname(dto.getSurname());
+            personExists.setPatronymic(dto.getPatronymic());
+            personRepository.save(personExists);
+        } else {
+            // throw new ServerException("invalid_person");
+        }
+    }
+
     public void deletePersonWithPassportNumber(String passportNumber) {
         Person person = personRepository.findByPassportNumber(passportNumber);
         personRepository.delete(person);

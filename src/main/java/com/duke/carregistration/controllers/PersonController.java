@@ -72,6 +72,20 @@ public class PersonController {
     }
 
     @SneakyThrows
+    @PutMapping(path = "person", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PersonDto> editPerson(@RequestParam(name = "passport") String passportNumber,
+            @RequestBody PersonDto newPerson) {
+
+        PersonDto personDto = newPerson;
+        personService.updatePerson(passportNumber, personDto);
+        if (personDto == null) {
+            throw new ServerException("invalid_person");
+        } else {
+            return new ResponseEntity<>(personDto, HttpStatus.UPGRADE_REQUIRED);
+        }
+    }
+
+    @SneakyThrows
     @PostMapping(path = "registration_car", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CarDto> registrationCar(@RequestParam(name = "passport") String passportNumber,
             @RequestBody CarDto newCar) {
@@ -80,6 +94,20 @@ public class PersonController {
             throw new ServerException("invalid_car");
         } else {
             return new ResponseEntity<>(newCar, HttpStatus.CREATED);
+        }
+    }
+
+    @SneakyThrows
+    @PutMapping(path = "car", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CarDto> editCar(@RequestParam(name = "number") String number,
+            @RequestBody CarDto newCar) {
+
+        CarDto carDto = newCar;
+        carService.updateCar(number, carDto);
+        if (carDto == null) {
+            throw new ServerException("invalid_person");
+        } else {
+            return new ResponseEntity<>(carDto, HttpStatus.UPGRADE_REQUIRED);
         }
     }
 
