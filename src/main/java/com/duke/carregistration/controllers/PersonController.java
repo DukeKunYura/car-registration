@@ -81,7 +81,7 @@ public class PersonController {
         if (personDto == null) {
             throw new ServerException("invalid_person");
         } else {
-            return new ResponseEntity<>(personDto, HttpStatus.UPGRADE_REQUIRED);
+            return new ResponseEntity<>(personDto, HttpStatus.CREATED);
         }
     }
 
