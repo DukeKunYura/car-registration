@@ -3,6 +3,7 @@ package com.duke.carregistration.services;
 import java.util.List;
 import java.util.ArrayList;
 
+import com.duke.carregistration.dto.CarDto;
 import org.springframework.stereotype.Service;
 
 import com.duke.carregistration.dto.CarWithPersonDto;
@@ -23,5 +24,10 @@ public class CarService {
             carsListDto.add(car.toDtoWithPerson(car));
         }
         return carsListDto;
+    }
+
+    public CarDto getCarByNumber(String number) {
+        Car car = carRepository.findByNumber(number);
+        return car.toDto(car);
     }
 }

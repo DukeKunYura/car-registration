@@ -5,8 +5,10 @@ import com.duke.carregistration.dto.PersonWithCarsDto;
 import com.duke.carregistration.entity.Person;
 import com.duke.carregistration.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
+import java.rmi.ServerException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,9 +32,16 @@ public class PersonService {
         Person person = personRepository.findByPassportNumber(passportNumber);
         return person.toDtoWithCars(person);
     }
+    @SneakyThrows
     public void addPerson(PersonDto dto) {
-        Person person = dto.toEntity(dto);
-        personRepository.save(person);
+        Person personExists = personRepository.findByPassportNumber(dto.getPassportNumber());
+        if (personExists == null) {
+            Person person = dto.toEntity(dto);
+            personRepository.save(person);
+        } else {
+            //throw new ServerException("invalid_person");
+        }
+
     }
     public void deletePersonWithPassportNumber(String passportNumber) {
         Person person = personRepository.findByPassportNumber(passportNumber);

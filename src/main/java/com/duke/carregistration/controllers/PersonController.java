@@ -41,6 +41,12 @@ public class PersonController {
         return carService.getAllCarsWithPerson();
     }
 
+    @GetMapping(value = "car")
+    public CarDto gerCarByNumber(
+            @RequestParam(name = "number") String number) {
+        return carService.getCarByNumber(number);
+    }
+
     @GetMapping(value = "person")
     public PersonDto getPersonByPassportNumber(
             @RequestParam(name = "passport", required = false) String passportNumber) {
