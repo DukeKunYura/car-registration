@@ -50,16 +50,11 @@ public class PersonService {
     @SneakyThrows
     public void updatePerson(String passportNumber, PersonDto dto) {
         Person personExists = personRepository.findByPassportNumber(passportNumber);
-        Person personNewExist = personRepository.findByPassportNumber(dto.getPassportNumber());
-        if (personNewExist == null) {
             personExists.setPassportNumber(dto.getPassportNumber());
             personExists.setFirstName(dto.getFirstName());
             personExists.setSurname(dto.getSurname());
             personExists.setPatronymic(dto.getPatronymic());
             personRepository.save(personExists);
-        } else {
-            // throw new ServerException("invalid_person");
-        }
     }
 
     public void deletePersonWithPassportNumber(String passportNumber) {
