@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.*;
 import java.rmi.ServerException;
 import java.util.List;
 
-@RestController("/")
+@org.springframework.web.bind.annotation.RestController("/")
 @CrossOrigin(origins = "http://localhost:8085")
 @RequiredArgsConstructor
-public class PersonController {
+public class RestController {
     private final PersonService personService;
     private final CarService carService;
     private final CarRegistrationService carRegistrationService;
