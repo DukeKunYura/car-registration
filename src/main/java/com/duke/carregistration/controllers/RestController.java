@@ -4,9 +4,9 @@ import com.duke.carregistration.dto.CarDto;
 import com.duke.carregistration.dto.CarWithPersonDto;
 import com.duke.carregistration.dto.PersonDto;
 import com.duke.carregistration.dto.PersonWithCarsDto;
-import com.duke.carregistration.services.CarRegistrationService;
-import com.duke.carregistration.services.CarService;
-import com.duke.carregistration.services.PersonService;
+import com.duke.carregistration.services.impl.CarRegistrationServiceImpl;
+import com.duke.carregistration.services.impl.CarServiceImpl;
+import com.duke.carregistration.services.impl.PersonServiceImpl;
 import com.duke.carregistration.exceptions.ServerException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,9 +20,9 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:8085")
 @RequiredArgsConstructor
 public class RestController {
-    private final PersonService personService;
-    private final CarService carService;
-    private final CarRegistrationService carRegistrationService;
+    private final PersonServiceImpl personService;
+    private final CarServiceImpl carService;
+    private final CarRegistrationServiceImpl carRegistrationService;
 
     @GetMapping(value = "persons")
     public List<PersonDto> getAllPersons() {
