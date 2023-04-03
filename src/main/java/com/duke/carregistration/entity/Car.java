@@ -5,9 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
 
-import com.duke.carregistration.dto.CarDto;
-import com.duke.carregistration.dto.CarWithPersonDto;
-
 import java.util.UUID;
 
 @Entity
@@ -32,25 +29,4 @@ public class Car {
     @ManyToOne
     @JoinColumn(name = "person_id")
     private Person person;
-
-    public CarDto toDto(Car car) {
-        CarDto dto = new CarDto();
-        dto.setId(car.getId());
-        dto.setNumber(car.getNumber());
-        dto.setBrand(car.getBrand());
-        dto.setModel(car.getModel());
-        dto.setColor(car.getColor());
-        return dto;
-    }
-
-    public CarWithPersonDto toDtoWithPerson(Car car) {
-        CarWithPersonDto dto = new CarWithPersonDto();
-        dto.setId(car.getId());
-        dto.setNumber(car.getNumber());
-        dto.setBrand(car.getBrand());
-        dto.setModel(car.getModel());
-        dto.setColor(car.getColor());
-        dto.setPerson(car.getPerson());
-        return dto;
-    }
 }

@@ -3,6 +3,7 @@ package com.duke.carregistration.services;
 import com.duke.carregistration.dto.PersonDto;
 import com.duke.carregistration.dto.PersonWithCarsDto;
 import com.duke.carregistration.entity.Person;
+import com.duke.carregistration.mappers.PersonMapper;
 import com.duke.carregistration.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -16,31 +17,32 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PersonService {
     private final PersonRepository personRepository;
+    private final PersonMapper personMapper;
 
     public List<PersonDto> getAllPersons() {
         List<Person> personList = personRepository.findAll();
         List<PersonDto> personsListDto = new ArrayList<>();
         for (Person person : personList) {
-            personsListDto.add(person.toDto(person));
+            personsListDto.add(personMapper.toDto(person));
         }
         return personsListDto;
     }
 
     public PersonDto getByPassport(String passportNumber) {
         Person person = personRepository.findByPassportNumber(passportNumber);
-        return person.toDto(person);
+        return personMapper.toDto(person);
     }
 
     public PersonWithCarsDto getPersonWithCarsByPassport(String passportNumber) {
         Person person = personRepository.findByPassportNumber(passportNumber);
-        return person.toDtoWithCars(person);
+        return personMapper.toDtoWithCars(person);
     }
 
     @SneakyThrows
     public void addPerson(PersonDto dto) {
         Person personExists = personRepository.findByPassportNumber(dto.getPassportNumber());
         if (personExists == null) {
-            Person person = dto.toEntity(dto);
+            Person person = personMapper.toEntity(dto);
             personRepository.save(person);
         } else {
             // throw new ServerException("invalid_person");

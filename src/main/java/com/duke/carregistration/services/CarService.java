@@ -5,6 +5,7 @@ import java.rmi.ServerException;
 import java.util.ArrayList;
 
 import com.duke.carregistration.dto.CarDto;
+import com.duke.carregistration.mappers.CarMapper;
 import org.springframework.stereotype.Service;
 
 import com.duke.carregistration.dto.CarWithPersonDto;
@@ -18,19 +19,20 @@ import lombok.SneakyThrows;
 @RequiredArgsConstructor
 public class CarService {
     private final CarRepository carRepository;
+    private final CarMapper carMapper;
 
     public List<CarWithPersonDto> getAllCarsWithPerson() {
         List<Car> carsList = carRepository.findAll();
         List<CarWithPersonDto> carsListDto = new ArrayList<>();
         for (Car car : carsList) {
-            carsListDto.add(car.toDtoWithPerson(car));
+            carsListDto.add(carMapper.toDtoWithPerson(car));
         }
         return carsListDto;
     }
 
     public CarDto getCarByNumber(String number) {
         Car car = carRepository.findByNumber(number);
-        return car.toDto(car);
+        return carMapper.toDto(car);
     }
 
     @SneakyThrows

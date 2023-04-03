@@ -1,9 +1,6 @@
 package com.duke.carregistration.dto;
 
 import java.util.UUID;
-
-import com.duke.carregistration.entity.Person;
-
 import lombok.Data;
 
 @Data
@@ -15,8 +12,7 @@ public class CarWithPersonDto {
     private String color;
     private PersonDto person;
 
-    public void setPerson(Person person) {
-        this.person = person.toDto(person);
+    public void setPerson(PersonDto dto) {
+        this.person = dto;
     }
-
 }
