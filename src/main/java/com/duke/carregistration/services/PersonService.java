@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
-import java.rmi.ServerException;
+//import java.rmi.ServerException;
 import java.util.ArrayList;
 import java.util.List;
 
