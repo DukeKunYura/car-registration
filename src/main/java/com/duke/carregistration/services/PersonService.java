@@ -3,13 +3,12 @@ package com.duke.carregistration.services;
 import com.duke.carregistration.dto.PersonDto;
 import com.duke.carregistration.dto.PersonWithCarsDto;
 import com.duke.carregistration.entity.Person;
+import com.duke.carregistration.exceptions.ServerException;
 import com.duke.carregistration.mappers.PersonMapper;
 import com.duke.carregistration.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
-//import java.rmi.ServerException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,18 +37,16 @@ public class PersonService {
         return personMapper.toDtoWithCars(person);
     }
 
-    @SneakyThrows
     public void addPerson(PersonDto dto) {
         Person personExists = personRepository.findByPassportNumber(dto.getPassportNumber());
         if (personExists == null) {
             Person person = personMapper.toEntity(dto);
             personRepository.save(person);
         } else {
-            // throw new ServerException("invalid_person");
+            throw new ServerException();
         }
     }
 
-    @SneakyThrows
     public void updatePerson(String passportNumber, PersonDto dto) {
         Person personExists = personRepository.findByPassportNumber(passportNumber);
             personExists.setPassportNumber(dto.getPassportNumber());

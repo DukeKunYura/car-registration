@@ -7,14 +7,13 @@ import com.duke.carregistration.dto.PersonWithCarsDto;
 import com.duke.carregistration.services.CarRegistrationService;
 import com.duke.carregistration.services.CarService;
 import com.duke.carregistration.services.PersonService;
+import com.duke.carregistration.exceptions.ServerException;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.rmi.ServerException;
 import java.util.List;
 
 @org.springframework.web.bind.annotation.RestController("/")
@@ -58,20 +57,18 @@ public class RestController {
         personService.deletePersonWithPassportNumber(passportNumber);
     }
 
-    @SneakyThrows
     @PostMapping(path = "person", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PersonDto> addPerson(@RequestBody PersonDto newPerson) {
 
         PersonDto personDto = newPerson;
         personService.addPerson(personDto);
         if (personDto == null) {
-            throw new ServerException("invalid_person");
+            throw new ServerException();
         } else {
             return new ResponseEntity<>(personDto, HttpStatus.CREATED);
         }
     }
 
-    @SneakyThrows
     @PutMapping(path = "person", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PersonDto> editPerson(@RequestParam(name = "passport") String passportNumber,
             @RequestBody PersonDto newPerson) {
@@ -79,25 +76,25 @@ public class RestController {
         PersonDto personDto = newPerson;
         personService.updatePerson(passportNumber, personDto);
         if (personDto == null) {
-            throw new ServerException("invalid_person");
+            throw new ServerException();
         } else {
             return new ResponseEntity<>(personDto, HttpStatus.CREATED);
         }
     }
 
-    @SneakyThrows
+
     @PostMapping(path = "registration_car", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CarDto> registrationCar(@RequestParam(name = "passport") String passportNumber,
             @RequestBody CarDto newCar) {
         carRegistrationService.registrationCar(passportNumber, newCar);
         if (newCar == null) {
-            throw new ServerException("invalid_car");
+            throw new ServerException();
         } else {
             return new ResponseEntity<>(newCar, HttpStatus.CREATED);
         }
     }
 
-    @SneakyThrows
+
     @PutMapping(path = "car", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CarDto> editCar(@RequestParam(name = "number") String number,
             @RequestBody CarDto newCar) {
@@ -105,7 +102,7 @@ public class RestController {
         CarDto carDto = newCar;
         carService.updateCar(number, carDto);
         if (carDto == null) {
-            throw new ServerException("invalid_person");
+            throw new ServerException();
         } else {
             return new ResponseEntity<>(carDto, HttpStatus.UPGRADE_REQUIRED);
         }
