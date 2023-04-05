@@ -39,13 +39,15 @@ public class PersonServiceImpl implements PersonService {
     }
 
     public void addPerson(PersonDto dto) {
-        Person personExists = personRepository.findByPassportNumber(dto.getPassportNumber());
-        if (personExists == null) {
-            Person person = personMapper.toEntity(dto);
-            personRepository.save(person);
-        } else {
-            throw new ServerException();
-        }
+//        Person personExists = personRepository.findByPassportNumber(dto.getPassportNumber());
+//        if (personExists == null) {
+//            Person person = personMapper.toEntity(dto);
+//            personRepository.save(person);
+//        } else {
+//            throw new ServerException();
+//        }
+        Person person = personMapper.toEntity(dto);
+        personRepository.save(person);
     }
 
     public void updatePerson(String passportNumber, PersonDto dto) {
