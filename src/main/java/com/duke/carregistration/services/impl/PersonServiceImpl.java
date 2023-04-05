@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +32,11 @@ public class PersonServiceImpl implements PersonService {
 
     public PersonDto getByPassport(String passportNumber) {
         Person person = personRepository.findByPassportNumber(passportNumber);
+        return personMapper.toDto(person);
+    }
+
+    public PersonDto getPersonById(UUID id) {
+        Person person = personRepository.findPersonById(id);
         return personMapper.toDto(person);
     }
 

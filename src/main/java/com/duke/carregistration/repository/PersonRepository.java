@@ -8,4 +8,5 @@ import java.util.UUID;
 @Repository
 public interface PersonRepository extends JpaRepository<Person, UUID> {
     Person findByPassportNumber(String passportNumber);
+    Person findPersonById(UUID id);
 }

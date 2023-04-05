@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @org.springframework.web.bind.annotation.RestController("/")
 //@CrossOrigin(origins = "http://localhost:8085")
@@ -36,6 +37,12 @@ public class RestController {
         return personService.getPersonWithCarsByPassport(passportNumber);
     }
 
+    @GetMapping(value = "person")
+    public PersonDto getPersonById(
+            @RequestParam(name = "id", required = false)UUID id) {
+        return personService.getPersonById(id);
+    }
+
     @GetMapping(value = "cars")
     public List<CarWithPersonDto> getAllCars() {
         return carService.getAllCarsWithPerson();
@@ -47,11 +54,11 @@ public class RestController {
         return carService.getCarByNumber(number);
     }
 
-    @GetMapping(value = "person")
-    public PersonDto getPersonByPassportNumber(
-            @RequestParam(name = "passport", required = false) String passportNumber) {
-        return personService.getByPassport(passportNumber);
-    }
+//    @GetMapping(value = "person_passport")
+//    public PersonDto getPersonByPassportNumber(
+//            @RequestParam(name = "passport", required = false) String passportNumber) {
+//        return personService.getByPassport(passportNumber);
+//    }
 
     @DeleteMapping(value = "delete_person")
     public void deletePersonByPassport(@RequestParam(name = "passport") String passportNumber) {
