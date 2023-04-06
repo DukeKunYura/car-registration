@@ -7,4 +7,5 @@
     <include file="001-add-person-table.xml" relativeToChangelogFile="true"/>
     <include file="002-add-car-table.xml" relativeToChangelogFile="true"/>
     <include file="003-add-person-column.xml" relativeToChangelogFile="true"/>
+    <include file="004-add-person-car-table.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

@@ -28,16 +28,10 @@ public class Person {
     private String surname;
     @Column(name = "patronymic")
     private String patronymic;
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany
+    @JoinTable(name = "person_car"
+            , joinColumns = {@JoinColumn(name = "person_id")}
+            , inverseJoinColumns = {@JoinColumn(name = "car_id")})
     List<Car> cars = new ArrayList<>();
 
-    public void addCar(Car car) {
-        cars.add(car);
-        car.setPerson(this);
-    }
-
-    public void removeCar(Car car) {
-        cars.remove(car);
-        car.setPerson(null);
-    }
 }

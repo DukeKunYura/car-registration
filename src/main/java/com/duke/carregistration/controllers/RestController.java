@@ -19,7 +19,7 @@ import java.util.UUID;
 
 @org.springframework.web.bind.annotation.RestController("/")
 //@CrossOrigin(origins = "http://localhost:8085")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:5173")
 @RequiredArgsConstructor
 public class RestController {
     private final PersonServiceImpl personService;
@@ -31,10 +31,9 @@ public class RestController {
         return personService.getAllPersons();
     }
 
-    @GetMapping(value = "person_with_cars")
-    public PersonWithCarsDto getPersonWithCarsByPassportNumber(
-            @RequestParam(name = "passport", required = false) String passportNumber) {
-        return personService.getPersonWithCarsByPassport(passportNumber);
+    @GetMapping(value = "cars")
+    public List<CarDto> getAllCars() {
+        return carService.getAllCars();
     }
 
     @GetMapping(value = "person")
@@ -43,43 +42,46 @@ public class RestController {
         return personService.getPersonById(id);
     }
 
-    @GetMapping(value = "cars")
-    public List<CarWithPersonDto> getAllCars() {
-        return carService.getAllCarsWithPerson();
-    }
-
     @GetMapping(value = "car")
     public CarDto gerCarByNumber(
             @RequestParam(name = "number") String number) {
         return carService.getCarByNumber(number);
     }
 
-//    @GetMapping(value = "person_passport")
-//    public PersonDto getPersonByPassportNumber(
-//            @RequestParam(name = "passport", required = false) String passportNumber) {
-//        return personService.getByPassport(passportNumber);
-//    }
+    @GetMapping(value = "person_with_cars")
+    public PersonWithCarsDto getPersonWithCarsByPassportNumber(
+            @RequestParam(name = "passport", required = false) String passportNumber) {
+        return personService.getPersonWithCarsByPassport(passportNumber);
+    }
+
+    @PostMapping(path = "person", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PersonDto> addPerson(@RequestBody PersonDto newPerson) {
+        if (newPerson == null) {
+            throw new ServerException();
+        } else {
+            personService.addPerson(newPerson);
+            return new ResponseEntity<>(newPerson, HttpStatus.CREATED);
+        }
+    }
+
+    @PostMapping(path = "car", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CarDto> addCar(@RequestBody CarDto newCar) {
+        if (newCar == null) {
+            throw new ServerException();
+        } else {
+            carService.addCar(newCar);
+            return new ResponseEntity<>(newCar, HttpStatus.CREATED);
+        }
+    }
 
     @DeleteMapping(value = "delete_person")
     public void deletePersonByPassport(@RequestParam(name = "passport") String passportNumber) {
         personService.deletePersonWithPassportNumber(passportNumber);
     }
 
-    @PostMapping(path = "person", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PersonDto> addPerson(@RequestBody PersonDto newPerson) {
-
-        PersonDto personDto = newPerson;
-        personService.addPerson(personDto);
-        if (personDto == null) {
-            throw new ServerException();
-        } else {
-            return new ResponseEntity<>(personDto, HttpStatus.CREATED);
-        }
-    }
-
     @PutMapping(path = "person", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PersonDto> editPerson(@RequestParam(name = "passport") String passportNumber,
-            @RequestBody PersonDto newPerson) {
+                                                @RequestBody PersonDto newPerson) {
 
         PersonDto personDto = newPerson;
         personService.updatePerson(passportNumber, personDto);
@@ -91,34 +93,41 @@ public class RestController {
     }
 
 
-    @PostMapping(path = "registration_car", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CarDto> registrationCar(@RequestParam(name = "passport") String passportNumber,
-            @RequestBody CarDto newCar) {
-        carRegistrationService.registrationCar(passportNumber, newCar);
-        if (newCar == null) {
-            throw new ServerException();
-        } else {
-            return new ResponseEntity<>(newCar, HttpStatus.CREATED);
-        }
-    }
+//    @GetMapping(value = "person_passport")
+//    public PersonDto getPersonByPassportNumber(
+//            @RequestParam(name = "passport", required = false) String passportNumber) {
+//        return personService.getByPassport(passportNumber);
+//    }
 
 
-    @PutMapping(path = "car", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CarDto> editCar(@RequestParam(name = "number") String number,
-            @RequestBody CarDto newCar) {
+//    @PostMapping(path = "registration_car", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<CarDto> registrationCar(@RequestParam(name = "passport") String passportNumber,
+//            @RequestBody CarDto newCar) {
+//        carRegistrationService.registrationCar(passportNumber, newCar);
+//        if (newCar == null) {
+//            throw new ServerException();
+//        } else {
+//            return new ResponseEntity<>(newCar, HttpStatus.CREATED);
+//        }
+//    }
 
-        CarDto carDto = newCar;
-        carService.updateCar(number, carDto);
-        if (carDto == null) {
-            throw new ServerException();
-        } else {
-            return new ResponseEntity<>(carDto, HttpStatus.UPGRADE_REQUIRED);
-        }
-    }
 
-    @DeleteMapping(value = "removal_car")
-    public void removeCarByNumber(@RequestParam(name = "passport") String passportNumber,
-            @RequestParam(name = "number") String number) {
-        carRegistrationService.removalFromRegisterCar(passportNumber, number);
-    }
+//    @PutMapping(path = "car", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<CarDto> editCar(@RequestParam(name = "number") String number,
+//            @RequestBody CarDto newCar) {
+//
+//        CarDto carDto = newCar;
+//        carService.updateCar(number, carDto);
+//        if (carDto == null) {
+//            throw new ServerException();
+//        } else {
+//            return new ResponseEntity<>(carDto, HttpStatus.UPGRADE_REQUIRED);
+//        }
+//    }
+
+//    @DeleteMapping(value = "removal_car")
+//    public void removeCarByNumber(@RequestParam(name = "passport") String passportNumber,
+//            @RequestParam(name = "number") String number) {
+//        carRegistrationService.removalFromRegisterCar(passportNumber, number);
+//    }
 }

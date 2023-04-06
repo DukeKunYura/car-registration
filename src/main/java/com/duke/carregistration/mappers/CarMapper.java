@@ -20,17 +20,17 @@ public class CarMapper {
         return dto;
     }
 
-    public CarWithPersonDto toDtoWithPerson(Car car) {
-        CarWithPersonDto dto = new CarWithPersonDto();
-        dto.setId(car.getId());
-        dto.setNumber(car.getNumber());
-        dto.setBrand(car.getBrand());
-        dto.setModel(car.getModel());
-        dto.setColor(car.getColor());
-        PersonMapper personMapper = new PersonMapper();
-        dto.setPerson(personMapper.toDto(car.getPerson()));
-        return dto;
-    }
+//    public CarWithPersonDto toDtoWithPerson(Car car) {
+//        CarWithPersonDto dto = new CarWithPersonDto();
+//        dto.setId(car.getId());
+//        dto.setNumber(car.getNumber());
+//        dto.setBrand(car.getBrand());
+//        dto.setModel(car.getModel());
+//        dto.setColor(car.getColor());
+//        PersonMapper personMapper = new PersonMapper();
+//        dto.setPerson(personMapper.toDto(car.getPerson()));
+//        return dto;
+//    }
 
     public Car toEntity(CarDto dto) {
         Car car = new Car();

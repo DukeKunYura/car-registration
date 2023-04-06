@@ -22,9 +22,9 @@ public class PersonServiceImpl implements PersonService {
     private final PersonMapper personMapper;
 
     public List<PersonDto> getAllPersons() {
-        List<Person> personList = personRepository.findAll();
+        List<Person> personsList = personRepository.findAll();
         List<PersonDto> personsListDto = new ArrayList<>();
-        for (Person person : personList) {
+        for (Person person : personsList) {
             personsListDto.add(personMapper.toDto(person));
         }
         return personsListDto;

@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -26,7 +28,9 @@ public class Car {
     private String model;
     @Column(name = "color")
     private String color;
-    @ManyToOne
-    @JoinColumn(name = "person_id")
-    private Person person;
+    @OneToMany
+    @JoinTable(name = "person_car"
+            , joinColumns = {@JoinColumn(name = "car_id")}
+            , inverseJoinColumns = {@JoinColumn(name = "person_id")})
+    List<Person> persons = new ArrayList<>();
 }

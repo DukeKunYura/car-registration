@@ -19,21 +19,23 @@ public class CarRegistrationServiceImpl implements CarRegistrationService {
     private final CarRepository carRepository;
     private final CarMapper carMapper;
 
-    public void registrationCar(String passportNumber, CarDto dto) {
-        Car carExist = carRepository.findByNumber(dto.getNumber());
-        if (carExist == null) {
-            Person person = personRepository.findByPassportNumber(passportNumber);
-            person.addCar(carMapper.toEntity(dto));
-            personRepository.save(person);
-        } else {
-            throw new ServerException();
-        }
-    }
 
-    public void removalFromRegisterCar(String passportNumber, String number) {
-        Person person = personRepository.findByPassportNumber(passportNumber);
-        Car car = carRepository.findByNumber(number);
-        person.removeCar(car);
-        personRepository.save(person);
-    }
+
+//    public void registrationCar(String passportNumber, CarDto dto) {
+//        Car carExist = carRepository.findByNumber(dto.getNumber());
+//        if (carExist == null) {
+//            Person person = personRepository.findByPassportNumber(passportNumber);
+//            person.addCar(carMapper.toEntity(dto));
+//            personRepository.save(person);
+//        } else {
+//            throw new ServerException();
+//        }
+//    }
+//
+//    public void removalFromRegisterCar(String passportNumber, String number) {
+//        Person person = personRepository.findByPassportNumber(passportNumber);
+//        Car car = carRepository.findByNumber(number);
+//        person.removeCar(car);
+//        personRepository.save(person);
+//    }
 }
