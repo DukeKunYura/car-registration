@@ -49,16 +49,16 @@ public class RestController {
         return carService.getCarById(id);
     }
 
+    @GetMapping(value = "person_number")
+    public PersonDto getPersonByNumber(
+            @RequestParam(name = "number") String number) {
+        return personService.getByPassport(number);
+    }
+
     @GetMapping(value = "car_number")
     public CarDto getCarByNumber(
             @RequestParam(name = "number") String number) {
         return carService.getCarByNumber(number);
-    }
-
-    @GetMapping(value = "person_with_cars")
-    public PersonWithCarsDto getPersonWithCarsByPassportNumber(
-            @RequestParam(name = "passport", required = false) String passportNumber) {
-        return personService.getPersonWithCarsByPassport(passportNumber);
     }
 
     @PostMapping(path = "person", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -81,11 +81,6 @@ public class RestController {
         }
     }
 
-    @DeleteMapping(value = "delete_person")
-    public void deletePersonByPassport(@RequestParam(name = "passport") String passportNumber) {
-        personService.deletePersonWithPassportNumber(passportNumber);
-    }
-
     @PostMapping(path = "registration_car", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PairId> registrationCar(@RequestBody PairId pairId) {
         if (pairId == null) {
@@ -94,6 +89,17 @@ public class RestController {
             carRegistrationService.registrationCar(pairId);
             return new ResponseEntity<>(pairId, HttpStatus.CREATED);
         }
+    }
+
+    @DeleteMapping(value = "delete_person")
+    public void deletePersonByPassport(@RequestParam(name = "passport") String passportNumber) {
+        personService.deletePersonWithPassportNumber(passportNumber);
+    }
+
+    @GetMapping(value = "person_with_cars")
+    public PersonWithCarsDto getPersonWithCarsByPassportNumber(
+            @RequestParam(name = "passport", required = false) String passportNumber) {
+        return personService.getPersonWithCarsByPassport(passportNumber);
     }
 
     // @PutMapping(path = "person", consumes = MediaType.APPLICATION_JSON_VALUE,

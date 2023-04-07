@@ -2,6 +2,7 @@ package com.duke.carregistration;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.duke.carregistration.dto.PersonDto;
 import org.hamcrest.collection.IsArray;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,13 +10,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockBodyContent;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import com.duke.carregistration.controllers.RestController;
@@ -43,14 +48,21 @@ public class RegistrationServiceTest {
     void registration() throws Exception {
         assertNotNull(carRegistrationServiceMock);
 
-        // restControllerMock.addPerson(null);
+        mockMvc.perform(MockMvcRequestBuilders.post("/persons")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content("""
+                        {
+                            "surname": "Dega",
+                            "firstName": "Edgar,
+                            "passportNumber": "343434"
+                        }
+                        """));
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/persons"))
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/person_number")
+                        .queryParam("343434"))
                 .andReturn();
-        Class<? extends MockHttpServletResponse> actual = result.getResponse().getClass();
-
-        Boolean isArr = actual.isArray();
-        assertThat(isArr).isEqualTo(false);
+        String actual = result.getResponse().getContentAsString();
+        System.out.println("возвращается: " + actual);
     }
-
 }
