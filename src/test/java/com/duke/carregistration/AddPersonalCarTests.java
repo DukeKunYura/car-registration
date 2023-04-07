@@ -19,22 +19,30 @@ public class AddPersonalCarTests {
     PersonRepository personRepository;
     @Autowired
     CarRepository carRepository;
-    private UUID personId;
+    private UUID klimtId, daliId, audiId;
 
     @PostConstruct
     void addThreePersonalCar() {
-        Person person = new Person();
-        person.setPassportNumber("202020");
-        person.setFirstName("Gustav");
-        person.setSurname("Klimt");
-        person = personRepository.save(person);
-        personId = person.getId();
+        Person klimt = new Person();
+        klimt.setPassportNumber("202020");
+        klimt.setFirstName("Gustav");
+        klimt.setSurname("Klimt");
+        klimt = personRepository.save(klimt);
+        klimtId = klimt.getId();
+
+        Person dali = new Person();
+        dali.setPassportNumber("202020");
+        dali.setFirstName("Salvador");
+        dali.setSurname("Dali");
+        dali = personRepository.save(dali);
+        daliId = dali.getId();
 
         Car audi = new Car();
         audi.setBrand("Audi");
         audi.setColor("black");
         audi.setNumber("8888");
         carRepository.save(audi);
+        audiId = audi.getId();
 
         Car mercedes = new Car();
         mercedes.setBrand("Mercedes");
@@ -48,18 +56,24 @@ public class AddPersonalCarTests {
         chevrolet.setNumber("5050");
         carRepository.save(chevrolet);
 
-        person.getCars().add(audi);
-        person.getCars().add(mercedes);
-        person.getCars().add(chevrolet);
+        klimt.getCars().add(audi);
+        klimt.getCars().add(mercedes);
+        klimt.getCars().add(chevrolet);
 
-        personRepository.save(person);
+        dali.getCars().add(audi);
+
+        personRepository.save(klimt);
+        personRepository.save(dali);
     }
 
     @Test
     void checkAddedCars() {
-        Person person = personRepository.findById(personId).orElseThrow();
+        Person person = personRepository.findById(klimtId).orElseThrow();
         person.getCars().size();
-        System.out.println("person.getCars().size() = " + person.getCars().size());
         assertEquals(3, person.getCars().size());
+
+        Car car = carRepository.findCarById(audiId);
+        assertEquals(2, car.getPersons().size());
+
     }
 }
