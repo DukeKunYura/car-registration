@@ -8,7 +8,6 @@ import jakarta.annotation.PostConstruct;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.annotation.Rollback;
 
 import java.util.UUID;
 
@@ -31,32 +30,32 @@ public class AddPersonalCarTests {
         person = personRepository.save(person);
         personId = person.getId();
 
-        {
-            Car car = new Car();
-            car.setBrand("Audi");
-            car.setColor("black");
-            car.setNumber("8888");
-            person.addCar(car);
-        }
-        {
-            Car car = new Car();
-            car.setBrand("Mercedes");
-            car.setColor("white");
-            car.setNumber("9000");
-            person.addCar(car);
-        }
-        {
-            Car car = new Car();
-            car.setBrand("Chevrolet");
-            car.setColor("blue");
-            car.setNumber("5050");
-            person.addCar(car);
-        }
+        Car audi = new Car();
+        audi.setBrand("Audi");
+        audi.setColor("black");
+        audi.setNumber("8888");
+        carRepository.save(audi);
+
+        Car mercedes = new Car();
+        mercedes.setBrand("Mercedes");
+        mercedes.setColor("white");
+        mercedes.setNumber("9000");
+        carRepository.save(mercedes);
+
+        Car chevrolet = new Car();
+        chevrolet.setBrand("Chevrolet");
+        chevrolet.setColor("blue");
+        chevrolet.setNumber("5050");
+        carRepository.save(chevrolet);
+
+        person.getCars().add(audi);
+        person.getCars().add(mercedes);
+        person.getCars().add(chevrolet);
+
         personRepository.save(person);
     }
 
     @Test
-    @Rollback(value = false)
     void checkAddedCars() {
         Person person = personRepository.findById(personId).orElseThrow();
         person.getCars().size();
