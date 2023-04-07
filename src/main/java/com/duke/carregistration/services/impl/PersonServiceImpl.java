@@ -36,7 +36,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     public PersonDto getPersonById(UUID id) {
-        Person person = personRepository.findPersonById(id);
+        Person person = personRepository.findById(id).orElseThrow();
         return personMapper.toDto(person);
     }
 

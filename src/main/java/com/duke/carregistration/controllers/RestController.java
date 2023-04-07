@@ -4,6 +4,7 @@ import com.duke.carregistration.dto.CarDto;
 import com.duke.carregistration.dto.CarWithPersonDto;
 import com.duke.carregistration.dto.PersonDto;
 import com.duke.carregistration.dto.PersonWithCarsDto;
+import com.duke.carregistration.kit.PairId;
 import com.duke.carregistration.services.impl.CarRegistrationServiceImpl;
 import com.duke.carregistration.services.impl.CarServiceImpl;
 import com.duke.carregistration.services.impl.PersonServiceImpl;
@@ -43,6 +44,12 @@ public class RestController {
     }
 
     @GetMapping(value = "car")
+    public CarDto getCarById(
+            @RequestParam(name = "id", required = false)UUID id) {
+        return carService.getCarById(id);
+    }
+
+    @GetMapping(value = "car_number")
     public CarDto gerCarByNumber(
             @RequestParam(name = "number") String number) {
         return carService.getCarByNumber(number);
@@ -79,18 +86,27 @@ public class RestController {
         personService.deletePersonWithPassportNumber(passportNumber);
     }
 
-    @PutMapping(path = "person", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PersonDto> editPerson(@RequestParam(name = "passport") String passportNumber,
-                                                @RequestBody PersonDto newPerson) {
-
-        PersonDto personDto = newPerson;
-        personService.updatePerson(passportNumber, personDto);
-        if (personDto == null) {
+    @PostMapping(path = "registration_car", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PairId> registrationCar(@RequestBody PairId pairId) {
+        if (pairId == null) {
             throw new ServerException();
         } else {
-            return new ResponseEntity<>(personDto, HttpStatus.CREATED);
+            carRegistrationService.registrationCar(pairId);
+            return new ResponseEntity<>(pairId, HttpStatus.CREATED);
         }
     }
+
+//    @PutMapping(path = "person", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<PersonDto> editPerson(@RequestParam(name = "passport") String passportNumber,
+//                                                @RequestBody PersonDto newPerson) {
+//        PersonDto personDto = newPerson;
+//        personService.updatePerson(passportNumber, personDto);
+//        if (personDto == null) {
+//            throw new ServerException();
+//        } else {
+//            return new ResponseEntity<>(personDto, HttpStatus.CREATED);
+//        }
+//    }
 
 
 //    @GetMapping(value = "person_passport")

@@ -1,8 +1,10 @@
 package com.duke.carregistration.services.impl;
 
 import com.duke.carregistration.dto.CarDto;
+import com.duke.carregistration.dto.PersonDto;
 import com.duke.carregistration.entity.Car;
 import com.duke.carregistration.entity.Person;
+import com.duke.carregistration.kit.PairId;
 import com.duke.carregistration.mappers.CarMapper;
 import com.duke.carregistration.repository.CarRepository;
 import com.duke.carregistration.repository.PersonRepository;
@@ -20,6 +22,12 @@ public class CarRegistrationServiceImpl implements CarRegistrationService {
     private final CarMapper carMapper;
 
 
+    public void registrationCar(PairId pairId) {
+        Person person = personRepository.findById(pairId.getPersonId()).orElseThrow();
+        Car car = carRepository.findCarById(pairId.getCarId());
+        person.getCars().add(car);
+        personRepository.save(person);
+    }
 
 //    public void registrationCar(String passportNumber, CarDto dto) {
 //        Car carExist = carRepository.findByNumber(dto.getNumber());
