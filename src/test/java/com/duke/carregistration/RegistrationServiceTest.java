@@ -60,7 +60,7 @@ public class RegistrationServiceTest {
                         """));
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/person_number")
-                        .queryParam("343434"))
+                        .queryParam("number","343434"))
                 .andReturn();
         String actual = result.getResponse().getContentAsString();
         System.out.println("возвращается: " + actual);
