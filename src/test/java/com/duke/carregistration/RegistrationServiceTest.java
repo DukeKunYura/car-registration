@@ -48,21 +48,21 @@ public class RegistrationServiceTest {
     void registration() throws Exception {
         assertNotNull(carRegistrationServiceMock);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/persons")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content("""
-                        {
-                            "surname": "Dega",
-                            "firstName": "Edgar,
-                            "passportNumber": "343434"
-                        }
-                        """));
+//        mockMvc.perform(MockMvcRequestBuilders.post("/person")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .accept(MediaType.APPLICATION_JSON)
+//                .content("""
+//                        {
+//                            "surname": "Dega",
+//                            "firstName": "Edgar",
+//                            "passportNumber": "343434"
+//                        }
+//                        """));
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/person_number")
                         .queryParam("number","343434"))
                 .andReturn();
         int actual = result.getResponse().getStatus();
-        System.out.println("возвращается: " + actual);
+        System.out.println("статус: " + actual);
     }
 }
