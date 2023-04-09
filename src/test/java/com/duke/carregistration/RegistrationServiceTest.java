@@ -1,5 +1,7 @@
 package com.duke.carregistration;
 
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.duke.carregistration.dto.PersonDto;
@@ -14,39 +16,45 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockBodyContent;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doReturn;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.duke.carregistration.controllers.RestController;
 import com.duke.carregistration.services.CarRegistrationService;
 import com.duke.carregistration.services.CarService;
 import com.duke.carregistration.services.PersonService;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
 @WebMvcTest
 public class RegistrationServiceTest {
 
     @Autowired
     MockMvc mockMvc;
-    @Mock
-    PersonService personServiceMock;
-    @Mock
-    CarService carServiceMock;
-    @Mock
-    CarRegistrationService carRegistrationServiceMock;
+//    @Mock
+//    PersonService personServiceMock;
+//    @Mock
+//    CarService carServiceMock;
+//    @Mock
+//    CarRegistrationService carRegistrationServiceMock;
 
     @MockBean
     RestController restControllerMock;
 
     @Test
     void registration() throws Exception {
-        assertNotNull(carRegistrationServiceMock);
+//        assertNotNull(carRegistrationServiceMock);
 
         MvcResult resultPost = mockMvc.perform(MockMvcRequestBuilders.post("/person")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -59,14 +67,24 @@ public class RegistrationServiceTest {
                         }
                         """))
                 .andReturn();
-        int statusPost = resultPost.getResponse().getStatus();
-        System.out.println("статус POST: " + statusPost);
+        assertThat(resultPost.getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
 
 
-        MvcResult resultGet = mockMvc.perform(MockMvcRequestBuilders.get("/person_number")
+
+        PersonDto personDto = new PersonDto();
+        personDto.setPassportNumber("343434");
+        doReturn(personDto).when(restControllerMock).getPersonByNumber(personDto.getPassportNumber());
+
+        MockHttpServletResponse resultGet = mockMvc.perform(MockMvcRequestBuilders.get("/person_number")
                         .queryParam("number","343434"))
-                .andReturn();
-        int statusGet = resultGet.getResponse().getStatus();
-        System.out.println("статус GET: " + statusGet);
+                .andReturn().getResponse();
+        assertThat(resultGet.getStatus()).isEqualTo(HttpStatus.OK.value());
+
+
+
+
+//        mockMvc.perform(MockMvcRequestBuilders.get("/person_number")
+//                        .queryParam("number","343430"))
+//                .andDo(print()).andExpect(status().isOk());
     }
 }
