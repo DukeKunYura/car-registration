@@ -30,18 +30,14 @@ public class PersonServiceImpl implements PersonService {
         return personsListDto;
     }
 
-    public List<PersonDto> getPersonsByCarId(UUID id) {
-        List<Person> personsList = personRepository.findAllByCarId(id);
-        List<PersonDto> personsListDto = new ArrayList<>();
-        for (Person person : personsList) {
-            personsListDto.add(personMapper.toDto(person));
-        }
-        return personsListDto;
-    }
-
     public PersonDto getPersonById(UUID id) {
         Person person = personRepository.findById(id).orElseThrow();
         return personMapper.toDto(person);
+    }
+
+    public PersonWithCarsDto getPersonWithCars(UUID id) {
+        Person person = personRepository.findPersonByIdWithCars(id);
+        return personMapper.toDtoWithCars(person);
     }
 
     public PersonDto getByPassport(String passportNumber) {

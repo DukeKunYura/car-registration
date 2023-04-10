@@ -4,6 +4,7 @@ import com.duke.carregistration.dto.CarDto;
 import com.duke.carregistration.dto.CarWithPersonDto;
 import com.duke.carregistration.dto.PersonDto;
 import com.duke.carregistration.dto.PersonWithCarsDto;
+import com.duke.carregistration.entity.Person;
 import com.duke.carregistration.kit.PairId;
 import com.duke.carregistration.services.impl.CarRegistrationServiceImpl;
 import com.duke.carregistration.services.impl.CarServiceImpl;
@@ -33,12 +34,6 @@ public class RestController {
         return personService.getAllPersons();
     }
 
-    @GetMapping(value = "car_persons")
-    public List<PersonDto> getPersonsByCarId(
-            @RequestParam(name = "id", required = false) UUID id) {
-        return personService.getAllPersons();
-    }
-
     @GetMapping(value = "cars")
     public List<CarDto> getAllCars() {
         return carService.getAllCars();
@@ -53,6 +48,12 @@ public class RestController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+
+    @GetMapping(value = "person_with_cars")
+    public PersonWithCarsDto getPersonWithCars(
+            @RequestParam(name = "id", required = false) UUID id) {
+            return personService.getPersonWithCars(id);
     }
 
     @GetMapping(value = "car")
@@ -123,11 +124,11 @@ public class RestController {
         personService.deletePersonWithPassportNumber(passportNumber);
     }
 
-    @GetMapping(value = "person_with_cars")
-    public PersonWithCarsDto getPersonWithCarsByPassportNumber(
-            @RequestParam(name = "passport", required = false) String passportNumber) {
-        return personService.getPersonWithCarsByPassport(passportNumber);
-    }
+//    @GetMapping(value = "person_with_cars")
+//    public PersonWithCarsDto getPersonWithCarsByPassportNumber(
+//            @RequestParam(name = "passport", required = false) String passportNumber) {
+//        return personService.getPersonWithCarsByPassport(passportNumber);
+//    }
 
     // @PutMapping(path = "person", consumes = MediaType.APPLICATION_JSON_VALUE,
     // produces = MediaType.APPLICATION_JSON_VALUE)

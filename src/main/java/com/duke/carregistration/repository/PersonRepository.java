@@ -12,5 +12,6 @@ import java.util.UUID;
 public interface PersonRepository extends JpaRepository<Person, UUID> {
     Person findByPassportNumber(String passportNumber);
 
-    List<Person> findAllByCarId(UUID id);
+    @Query("select p from Person p left join fetch p.cars where p.id = :id")
+    Person findPersonByIdWithCars(UUID id);
 }
