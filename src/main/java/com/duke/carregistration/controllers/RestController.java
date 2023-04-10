@@ -33,21 +33,37 @@ public class RestController {
         return personService.getAllPersons();
     }
 
+    @GetMapping(value = "car_persons")
+    public List<PersonDto> getPersonsByCarId(
+            @RequestParam(name = "id", required = false) UUID id) {
+        return personService.getAllPersons();
+    }
+
     @GetMapping(value = "cars")
     public List<CarDto> getAllCars() {
         return carService.getAllCars();
     }
 
     @GetMapping(value = "person")
-    public PersonDto getPersonById(
+    public ResponseEntity<PersonDto> getPersonById(
             @RequestParam(name = "id", required = false) UUID id) {
-        return personService.getPersonById(id);
+        try {
+            PersonDto personDto = personService.getPersonById(id);
+            return ResponseEntity.status(HttpStatus.OK).body(personDto);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @GetMapping(value = "car")
-    public CarDto getCarById(
+    public ResponseEntity<CarDto> getCarById(
             @RequestParam(name = "id", required = false) UUID id) {
-        return carService.getCarById(id);
+        try {
+            CarDto carDto = carService.getCarById(id);
+            return ResponseEntity.status(HttpStatus.OK).body(carDto);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @GetMapping(value = "person_number")
@@ -56,16 +72,20 @@ public class RestController {
         try {
             PersonDto personDto = personService.getByPassport(number);
             return ResponseEntity.status(HttpStatus.OK).body(personDto);
-        } catch (Exception exception) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-
     }
 
     @GetMapping(value = "car_number")
-    public CarDto getCarByNumber(
+    public ResponseEntity<CarDto> getCarByNumber(
             @RequestParam(name = "number") String number) {
-        return carService.getCarByNumber(number);
+        try {
+            CarDto carDto = carService.getCarByNumber(number);
+            return ResponseEntity.status(HttpStatus.OK).body(carDto);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @PostMapping(path = "person", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -14,7 +14,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
-public class AddPersonalCarTests {
+public class RegistrationJpaTest {
     @Autowired
     PersonRepository personRepository;
     @Autowired

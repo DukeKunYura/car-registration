@@ -42,27 +42,26 @@ import com.duke.carregistration.services.CarService;
 import com.duke.carregistration.services.PersonService;
 
 @ExtendWith(MockitoExtension.class)
-// @WebMvcTest
-public class RegistrationServiceTest {
-
-    @Autowired
-    MockMvc mockMvc;
-    // @Mock
-    // PersonService personServiceMock;
-    // @Mock
-    // CarService carServiceMock;
-    // @Mock
-    // CarRegistrationService carRegistrationServiceMock;
-
+public class ControllerTest {
     @InjectMocks
     RestController restControllerMock;
 
     @Test
-    void registration() throws Exception {
-        // assertNotNull(carRegistrationServiceMock);
-
-        ResponseEntity<PersonDto> resultGet = restControllerMock.getPersonByNumber("343436");
+    void getNegative() throws Exception {
+        assertNotNull(restControllerMock);
+        ResponseEntity<PersonDto> resultGet = restControllerMock.getPersonByNumber("343434");
         assertEquals("404 NOT_FOUND", resultGet.getStatusCode().toString());
+    }
+
+    @Test
+    void getPositive() throws Exception {
+
+
+
+
+
+        ResponseEntity<PersonDto> resultGet = restControllerMock.getPersonByNumber("343434");
+        assertEquals("200 OK", resultGet.getStatusCode().toString());
 
         // MvcResult resultPost = mockMvc.perform(MockMvcRequestBuilders.post("/person")
         // .contentType(MediaType.APPLICATION_JSON)
