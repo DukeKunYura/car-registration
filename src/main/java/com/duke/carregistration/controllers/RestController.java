@@ -51,9 +51,14 @@ public class RestController {
     }
 
     @GetMapping(value = "person_number")
-    public PersonDto getPersonByNumber(
+    public ResponseEntity<PersonDto> getPersonByNumber(
             @RequestParam(name = "number") String number) {
-        return personService.getByPassport(number);
+        try {
+            PersonDto personDto = personService.getByPassport(number);
+            return ResponseEntity.status(HttpStatus.OK).body(personDto);
+        } catch (Exception exception) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
 
     }
 
