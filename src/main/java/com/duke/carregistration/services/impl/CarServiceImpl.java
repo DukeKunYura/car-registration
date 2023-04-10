@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import com.duke.carregistration.dto.CarDto;
-import com.duke.carregistration.dto.PersonDto;
+import com.duke.carregistration.dto.CarWithPersonsDto;
+import com.duke.carregistration.dto.PersonWithCarsDto;
 import com.duke.carregistration.entity.Person;
 import com.duke.carregistration.mappers.CarMapper;
 import com.duke.carregistration.services.CarService;
 import org.springframework.stereotype.Service;
 import com.duke.carregistration.exceptions.ServerException;
 
-import com.duke.carregistration.dto.CarWithPersonDto;
 import com.duke.carregistration.entity.Car;
 import com.duke.carregistration.repository.CarRepository;
 
@@ -36,6 +36,11 @@ public class CarServiceImpl implements CarService {
     public CarDto getCarById(UUID id) {
         Car car = carRepository.findCarById(id);
         return carMapper.toDto(car);
+    }
+
+    public CarWithPersonsDto getCarWithPersons(UUID id) {
+        Car car = carRepository.findCarByIdWithPersons(id);
+        return carMapper.toDtoWithPersons(car);
     }
 
     public CarDto getCarByNumber(String number) {

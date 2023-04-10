@@ -1,10 +1,9 @@
 package com.duke.carregistration.controllers;
 
 import com.duke.carregistration.dto.CarDto;
-import com.duke.carregistration.dto.CarWithPersonDto;
+import com.duke.carregistration.dto.CarWithPersonsDto;
 import com.duke.carregistration.dto.PersonDto;
 import com.duke.carregistration.dto.PersonWithCarsDto;
-import com.duke.carregistration.entity.Person;
 import com.duke.carregistration.kit.PairId;
 import com.duke.carregistration.services.impl.CarRegistrationServiceImpl;
 import com.duke.carregistration.services.impl.CarServiceImpl;
@@ -17,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @org.springframework.web.bind.annotation.RestController("/")
@@ -50,18 +48,34 @@ public class RestController {
         }
     }
 
-    @GetMapping(value = "person_with_cars")
-    public PersonWithCarsDto getPersonWithCars(
-            @RequestParam(name = "id", required = false) UUID id) {
-            return personService.getPersonWithCars(id);
-    }
-
     @GetMapping(value = "car")
     public ResponseEntity<CarDto> getCarById(
             @RequestParam(name = "id", required = false) UUID id) {
         try {
             CarDto carDto = carService.getCarById(id);
             return ResponseEntity.status(HttpStatus.OK).body(carDto);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @GetMapping(value = "person_with_cars")
+    public ResponseEntity<PersonWithCarsDto> getPersonWithCars(
+            @RequestParam(name = "id", required = false) UUID id) {
+        try {
+            PersonWithCarsDto person = personService.getPersonWithCars(id);
+            return ResponseEntity.status(HttpStatus.OK).body(person);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @GetMapping(value = "car_with_persons")
+    public ResponseEntity<CarWithPersonsDto> getCarWithPersons(
+            @RequestParam(name = "id", required = false) UUID id) {
+        try {
+            CarWithPersonsDto car = carService.getCarWithPersons(id);
+            return ResponseEntity.status(HttpStatus.OK).body(car);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }

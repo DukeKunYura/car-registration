@@ -45,19 +45,7 @@ public class PersonServiceImpl implements PersonService {
         return personMapper.toDto(person);
     }
 
-    public PersonWithCarsDto getPersonWithCarsByPassport(String passportNumber) {
-        Person person = personRepository.findByPassportNumber(passportNumber);
-        return personMapper.toDtoWithCars(person);
-    }
-
     public void addPerson(PersonDto dto) {
-//        Person personExists = personRepository.findByPassportNumber(dto.getPassportNumber());
-//        if (personExists == null) {
-//            Person person = personMapper.toEntity(dto);
-//            personRepository.save(person);
-//        } else {
-//            throw new ServerException();
-//        }
         Person person = personMapper.toEntity(dto);
         personRepository.save(person);
     }

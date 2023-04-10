@@ -1,8 +1,13 @@
 package com.duke.carregistration.mappers;
+import com.duke.carregistration.dto.CarDto;
 import com.duke.carregistration.dto.PersonDto;
 import com.duke.carregistration.dto.PersonWithCarsDto;
+import com.duke.carregistration.entity.Car;
 import com.duke.carregistration.entity.Person;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class PersonMapper {
@@ -36,5 +41,13 @@ public class PersonMapper {
         person.setSurname(dto.getSurname());
         person.setPatronymic(dto.getPatronymic());
         return person;
+    }
+
+    public List<PersonDto> toDtoPersonsList(List<Person> persons) {
+        List<PersonDto> personsListDto = new ArrayList<>();
+        for (Person person : persons) {
+            personsListDto.add(this.toDto(person));
+        }
+        return personsListDto;
     }
 }
