@@ -43,35 +43,56 @@ public class RegistrationIntegrationTest {
     RestController restControllerMock;
 
     @Test
-    void positiveGet() throws Exception {
+    void positiveGetPerson() throws Exception {
 
         MvcResult resultPost = mockMvc.perform(MockMvcRequestBuilders.post("/person")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {
-                                "surname": "Dega",
-                                "firstName": "Edgar",
-                                "passportNumber": "343434"
-                                }
-                                """))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content("""
+                        {
+                        "surname": "Dega",
+                        "firstName": "Edgar",
+                        "passportNumber": "343434"
+                        }
+                        """))
                 .andReturn();
         assertThat(resultPost.getResponse().getStatus()).isEqualTo(HttpStatus.CREATED.value());
 
         MockHttpServletResponse resultGet = mockMvc.perform(MockMvcRequestBuilders.get("/person_number")
-                        .queryParam("number", "343434"))
+                .queryParam("number", "343434"))
                 .andReturn().getResponse();
         assertThat(resultGet.getStatus()).isEqualTo(HttpStatus.OK.value());
     }
 
     @Test
-    void negativeGet() throws Exception {
+    void negativeGetPerson() throws Exception {
 
-        MockHttpServletResponse resultGet =
-                mockMvc.perform(MockMvcRequestBuilders.get("/person_number")
-                                .queryParam("number", "343430"))
-                        .andReturn().getResponse();
+        MockHttpServletResponse resultGet = mockMvc.perform(MockMvcRequestBuilders.get("/person_number")
+                .queryParam("number", "343430"))
+                .andReturn().getResponse();
         assertThat(resultGet.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
+    }
+
+    @Test
+    void positiveGetCar() throws Exception {
+
+        MvcResult resultPost = mockMvc.perform(MockMvcRequestBuilders.post("/car")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content("""
+                        {
+                        "brand": "Renault",
+                        "color": "Edgar",
+                        "number": "3000"
+                        }
+                        """))
+                .andReturn();
+        assertThat(resultPost.getResponse().getStatus()).isEqualTo(HttpStatus.CREATED.value());
+
+        MockHttpServletResponse resultGet = mockMvc.perform(MockMvcRequestBuilders.get("/car_number")
+                .queryParam("number", "3000"))
+                .andReturn().getResponse();
+        assertThat(resultGet.getStatus()).isEqualTo(HttpStatus.OK.value());
     }
 
     // mockMvc.perform(MockMvcRequestBuilders.get("/person_number")
