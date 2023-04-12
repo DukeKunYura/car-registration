@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -50,17 +49,16 @@ public class PersonServiceImpl implements PersonService {
         personRepository.save(person);
     }
 
-    public void updatePerson(String passportNumber, PersonDto dto) {
-        Person personExists = personRepository.findByPassportNumber(passportNumber);
-            personExists.setPassportNumber(dto.getPassportNumber());
-            personExists.setFirstName(dto.getFirstName());
-            personExists.setSurname(dto.getSurname());
-            personExists.setPatronymic(dto.getPatronymic());
-            personRepository.save(personExists);
+    public void deletePerson(UUID id) {
+        Person person = personRepository.findById(id).orElseThrow();
+        personRepository.delete(person);
     }
 
-    public void deletePersonWithPassportNumber(String passportNumber) {
-        Person person = personRepository.findByPassportNumber(passportNumber);
-        personRepository.delete(person);
+    public void updatePerson(UUID id, PersonDto dto) {
+        Person person = personRepository.findById(id).orElseThrow();
+        person.setFirstName(dto.getFirstName());
+        person.setSurname(dto.getSurname());
+        person.setPatronymic(dto.getPatronymic());
+        personRepository.save(person);
     }
 }

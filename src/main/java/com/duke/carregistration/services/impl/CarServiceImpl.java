@@ -48,23 +48,21 @@ public class CarServiceImpl implements CarService {
         return carMapper.toDto(car);
     }
 
-    public void addCar(CarDto dto){
+    public void addCar(CarDto dto) {
         Car car = carMapper.toEntity(dto);
         carRepository.save(car);
     }
 
-    public void updateCar(String number, CarDto dto) {
-        Car carExists = carRepository.findByNumber(number);
-        Car carNewExist = carRepository.findByNumber(dto.getNumber());
-        if (carNewExist == null) {
-            carExists.setNumber(dto.getNumber());
-            carExists.setBrand(dto.getBrand());
-            carExists.setModel(dto.getModel());
-            carExists.setColor(dto.getColor());
-            carRepository.save(carExists);
-        } else {
-            throw new ServerException();
-        }
+    public void deleteCar(UUID id) {
+        Car car = carRepository.findById(id).orElseThrow();
+        carRepository.delete(car);
     }
 
+    public void updateCar(UUID id, CarDto dto) {
+        Car car = carRepository.findById(id).orElseThrow();
+        car.setBrand(dto.getBrand());
+        car.setModel(dto.getModel());
+        car.setColor(dto.getColor());
+        carRepository.save(car);
+    }
 }

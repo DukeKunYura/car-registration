@@ -134,15 +134,28 @@ public class RestController {
     }
 
     @DeleteMapping(value = "delete_person")
-    public void deletePersonByPassport(@RequestParam(name = "passport") String passportNumber) {
-        personService.deletePersonWithPassportNumber(passportNumber);
+    public void deletePerson(@RequestParam(name = "id") UUID id) {
+        try {
+            personService.deletePerson(id);
+        } catch (Exception e) {
+            throw new ServerException();
+        }
     }
 
-//    @GetMapping(value = "person_with_cars")
-//    public PersonWithCarsDto getPersonWithCarsByPassportNumber(
-//            @RequestParam(name = "passport", required = false) String passportNumber) {
-//        return personService.getPersonWithCarsByPassport(passportNumber);
-//    }
+    @DeleteMapping(value = "delete_car")
+    public void deleteCar(@RequestParam(name = "id") UUID id) {
+        try {
+            carService.deleteCar(id);
+        } catch (Exception e) {
+            throw new ServerException();
+        }
+    }
+
+    // @GetMapping(value = "person_with_cars")
+    // public PersonWithCarsDto getPersonWithCarsByPassportNumber(
+    // @RequestParam(name = "passport", required = false) String passportNumber) {
+    // return personService.getPersonWithCarsByPassport(passportNumber);
+    // }
 
     // @PutMapping(path = "person", consumes = MediaType.APPLICATION_JSON_VALUE,
     // produces = MediaType.APPLICATION_JSON_VALUE)
