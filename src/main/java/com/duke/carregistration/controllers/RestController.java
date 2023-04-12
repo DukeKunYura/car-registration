@@ -151,65 +151,34 @@ public class RestController {
         }
     }
 
-    // @GetMapping(value = "person_with_cars")
-    // public PersonWithCarsDto getPersonWithCarsByPassportNumber(
-    // @RequestParam(name = "passport", required = false) String passportNumber) {
-    // return personService.getPersonWithCarsByPassport(passportNumber);
-    // }
+    @PutMapping(path = "person", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PersonDto> editPerson(@RequestParam(name = "id") UUID id,
+            @RequestBody PersonDto newPerson) {
+        try {
+            if (newPerson == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            } else {
+                personService.updatePerson(id, newPerson);
+                return new ResponseEntity<>(newPerson, HttpStatus.UPGRADE_REQUIRED);
+            }
+        } catch (Exception e) {
+            throw new ServerException();
+        }
+    }
 
-    // @PutMapping(path = "person", consumes = MediaType.APPLICATION_JSON_VALUE,
-    // produces = MediaType.APPLICATION_JSON_VALUE)
-    // public ResponseEntity<PersonDto> editPerson(@RequestParam(name = "passport")
-    // String passportNumber,
-    // @RequestBody PersonDto newPerson) {
-    // PersonDto personDto = newPerson;
-    // personService.updatePerson(passportNumber, personDto);
-    // if (personDto == null) {
-    // throw new ServerException();
-    // } else {
-    // return new ResponseEntity<>(personDto, HttpStatus.CREATED);
-    // }
-    // }
+    @PutMapping(path = "car", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CarDto> editCar(@RequestParam(name = "id") UUID id,
+            @RequestBody CarDto newCar) {
+        try {
+            if (newCar == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            } else {
+                carService.updateCar(id, newCar);
+                return new ResponseEntity<>(newCar, HttpStatus.UPGRADE_REQUIRED);
+            }
+        } catch (Exception e) {
+            throw new ServerException();
+        }
+    }
 
-    // @GetMapping(value = "person_passport")
-    // public PersonDto getPersonByPassportNumber(
-    // @RequestParam(name = "passport", required = false) String passportNumber) {
-    // return personService.getByPassport(passportNumber);
-    // }
-
-    // @PostMapping(path = "registration_car", consumes =
-    // MediaType.APPLICATION_JSON_VALUE, produces =
-    // MediaType.APPLICATION_JSON_VALUE)
-    // public ResponseEntity<CarDto> registrationCar(@RequestParam(name =
-    // "passport") String passportNumber,
-    // @RequestBody CarDto newCar) {
-    // carRegistrationService.registrationCar(passportNumber, newCar);
-    // if (newCar == null) {
-    // throw new ServerException();
-    // } else {
-    // return new ResponseEntity<>(newCar, HttpStatus.CREATED);
-    // }
-    // }
-
-    // @PutMapping(path = "car", consumes = MediaType.APPLICATION_JSON_VALUE,
-    // produces = MediaType.APPLICATION_JSON_VALUE)
-    // public ResponseEntity<CarDto> editCar(@RequestParam(name = "number") String
-    // number,
-    // @RequestBody CarDto newCar) {
-    //
-    // CarDto carDto = newCar;
-    // carService.updateCar(number, carDto);
-    // if (carDto == null) {
-    // throw new ServerException();
-    // } else {
-    // return new ResponseEntity<>(carDto, HttpStatus.UPGRADE_REQUIRED);
-    // }
-    // }
-
-    // @DeleteMapping(value = "removal_car")
-    // public void removeCarByNumber(@RequestParam(name = "passport") String
-    // passportNumber,
-    // @RequestParam(name = "number") String number) {
-    // carRegistrationService.removalFromRegisterCar(passportNumber, number);
-    // }
 }
