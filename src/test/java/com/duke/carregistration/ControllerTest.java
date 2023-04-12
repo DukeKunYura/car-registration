@@ -40,57 +40,55 @@ import com.duke.carregistration.controllers.RestController;
 import com.duke.carregistration.services.CarRegistrationService;
 import com.duke.carregistration.services.CarService;
 import com.duke.carregistration.services.PersonService;
+import com.duke.carregistration.services.impl.PersonServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class ControllerTest {
+    @Mock
+    PersonServiceImpl personService;
+
     @InjectMocks
     RestController restControllerMock;
 
     @Test
-    void getNegative() throws Exception {
+    void getPositive() throws Exception {
         assertNotNull(restControllerMock);
         ResponseEntity<PersonDto> resultGet = restControllerMock.getPersonByNumber("343434");
-        assertEquals("404 NOT_FOUND", resultGet.getStatusCode().toString());
+        assertEquals("200 OK", resultGet.getStatusCode().toString());
     }
 
     @Test
-    void getPositive() throws Exception {
+    void postPositive() throws Exception {
+        PersonDto person = new PersonDto();
+        person.setPassportNumber("797979");
+        person.setSurname("Picasso");
+        ResponseEntity<PersonDto> resultPost = restControllerMock.addPerson(person);
+        assertEquals("201 CREATED", resultPost.getStatusCode().toString());
 
-
-
-
-
-        ResponseEntity<PersonDto> resultGet = restControllerMock.getPersonByNumber("343434");
-        assertEquals("200 OK", resultGet.getStatusCode().toString());
-
-        // MvcResult resultPost = mockMvc.perform(MockMvcRequestBuilders.post("/person")
-        // .contentType(MediaType.APPLICATION_JSON)
-        // .accept(MediaType.APPLICATION_JSON)
-        // .content("""
-        // {
-        // "surname": "Dega",
-        // "firstName": "Edgar",
-        // "passportNumber": "343434"
-        // }
-        // """))
-        // .andReturn();
-        // assertThat(resultPost.getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
-
-        // assertThrows(ServerException.class,
-        // () -> restControllerMock.getPersonByNumber("343436"));
-
-        // PersonDto personDto = new PersonDto();
-        // personDto.setPassportNumber("343434");
-        // doReturn(personDto).when(restControllerMock).getPersonByNumber(personDto.getPassportNumber());
-
-        // MockHttpServletResponse resultGet =
-        // mockMvc.perform(MockMvcRequestBuilders.get("/person_number")
-        // .queryParam("number","343434"))
-        // .andReturn().getResponse();
-        // assertThat(resultGet.getStatus()).isEqualTo(HttpStatus.OK.value());
-
-        // mockMvc.perform(MockMvcRequestBuilders.get("/person_number")
-        // .queryParam("number","343430"))
-        // .andDo(print()).andExpect(status().isOk());
+        assertThrows(ServerException.class,
+                () -> restControllerMock.addPerson(null));
     }
+
+    @Test
+    void postNegative() throws Exception {
+        assertThrows(ServerException.class,
+                () -> restControllerMock.addPerson(null));
+    }
+
+    // ResponseEntity<PersonDto> resultPost = restControllerMock.addPerson(person);
+    // assertEquals("200 OK", resultPost.getStatusCode().toString());
+
+    // PersonDto personDto = new PersonDto();
+    // personDto.setPassportNumber("343434");
+    // doReturn(personDto).when(restControllerMock).getPersonByNumber(personDto.getPassportNumber());
+
+    // MockHttpServletResponse resultGet =
+    // mockMvc.perform(MockMvcRequestBuilders.get("/person_number")
+    // .queryParam("number","343434"))
+    // .andReturn().getResponse();
+    // assertThat(resultGet.getStatus()).isEqualTo(HttpStatus.OK.value());
+
+    // mockMvc.perform(MockMvcRequestBuilders.get("/person_number")
+    // .queryParam("number","343430"))
+    // .andDo(print()).andExpect(status().isOk());
 }
