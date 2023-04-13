@@ -36,6 +36,8 @@ import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.UUID;
+
 import com.duke.carregistration.controllers.RestController;
 import com.duke.carregistration.services.CarRegistrationService;
 import com.duke.carregistration.services.CarService;
@@ -73,6 +75,23 @@ public class ControllerTest {
     void postNegative() throws Exception {
         assertThrows(ServerException.class,
                 () -> restControllerMock.addPerson(null));
+    }
+
+    @Test
+    void putNegative() throws Exception {
+        ResponseEntity<PersonDto> resultPut = restControllerMock.editPerson(null, null);
+        assertEquals("400 BAD_REQUEST", resultPut.getStatusCode().toString());
+    }
+
+    @Test
+    void putPositive() throws Exception {
+        PersonDto person = new PersonDto();
+        person.setPassportNumber("797979");
+        person.setSurname("Picasso");
+        UUID id = UUID.randomUUID();
+        ResponseEntity<PersonDto> resultPut = restControllerMock.editPerson(id, person);
+        assertEquals("201 CREATED", resultPut.getStatusCode().toString());
+
     }
 
     // ResponseEntity<PersonDto> resultPost = restControllerMock.addPerson(person);

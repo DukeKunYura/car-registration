@@ -155,11 +155,11 @@ public class RestController {
     public ResponseEntity<PersonDto> editPerson(@RequestParam(name = "id") UUID id,
             @RequestBody PersonDto newPerson) {
         try {
-            if (newPerson == null) {
+            if (newPerson == null || id == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
             } else {
                 personService.updatePerson(id, newPerson);
-                return new ResponseEntity<>(newPerson, HttpStatus.UPGRADE_REQUIRED);
+                return new ResponseEntity<>(newPerson, HttpStatus.CREATED);
             }
         } catch (Exception e) {
             throw new ServerException();
@@ -170,11 +170,11 @@ public class RestController {
     public ResponseEntity<CarDto> editCar(@RequestParam(name = "id") UUID id,
             @RequestBody CarDto newCar) {
         try {
-            if (newCar == null) {
+            if (newCar == null || id == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
             } else {
                 carService.updateCar(id, newCar);
-                return new ResponseEntity<>(newCar, HttpStatus.UPGRADE_REQUIRED);
+                return new ResponseEntity<>(newCar, HttpStatus.CREATED);
             }
         } catch (Exception e) {
             throw new ServerException();
