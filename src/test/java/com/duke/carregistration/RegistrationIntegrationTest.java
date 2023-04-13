@@ -138,9 +138,9 @@ public class RegistrationIntegrationTest {
         assertThat(resultGet.getStatus()).isEqualTo(HttpStatus.OK.value());
 
         String jsonString = resultGet.getContentAsString();
-        PersonWithCarsDto person = mapper.readValue(jsonString, PersonWithCarsDto.class);
-        assertThat(person.getCars().size()).isEqualTo(1);
+        PersonWithCarsDto personWithCar = mapper.readValue(jsonString, PersonWithCarsDto.class);
+        assertThat(personWithCar.getCars().size()).isEqualTo(1);
+
 
     }
-
 }

@@ -69,11 +69,11 @@ public class RegistrationJpaTest {
     @Test
     void checkAddedCars() {
         Person person = personRepository.findById(klimtId).orElseThrow();
-        person.getCars().size();
         assertEquals(3, person.getCars().size());
 
         Car car = carRepository.findCarById(audiId);
         assertEquals(2, car.getPersons().size());
+
 
     }
 }
