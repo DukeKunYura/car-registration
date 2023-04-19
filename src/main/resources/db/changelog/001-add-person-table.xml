@@ -10,7 +10,9 @@
                 <constraints primaryKey="true"
                              primaryKeyName="persons_pk"/>
             </column>
-            <column name="passport_number" type="varchar(10)"/>
+            <column name="passport_number" type="varchar(10)" >
+                <constraints nullable="false" unique="true"/>
+            </column>
             <column name="first_name" type="varchar(255)"/>
             <column name="surname" type="varchar(255)"/>
             <column name="patronymic" type="varchar(255)"/>

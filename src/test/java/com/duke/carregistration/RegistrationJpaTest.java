@@ -31,7 +31,7 @@ public class RegistrationJpaTest {
         klimtId = klimt.getId();
 
         Person dali = new Person();
-        dali.setPassportNumber("202020");
+        dali.setPassportNumber("303030");
         dali.setFirstName("Salvador");
         dali.setSurname("Dali");
         dali = personRepository.save(dali);
@@ -73,7 +73,5 @@ public class RegistrationJpaTest {
 
         Car car = carRepository.findCarById(audiId);
         assertEquals(2, car.getPersons().size());
-
-
     }
 }
