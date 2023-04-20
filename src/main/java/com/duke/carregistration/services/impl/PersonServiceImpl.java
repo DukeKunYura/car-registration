@@ -3,13 +3,11 @@ package com.duke.carregistration.services.impl;
 import com.duke.carregistration.dto.PersonDto;
 import com.duke.carregistration.dto.PersonWithCarsDto;
 import com.duke.carregistration.entity.Person;
-import com.duke.carregistration.exceptions.ServerException;
 import com.duke.carregistration.mappers.PersonMapper;
 import com.duke.carregistration.repository.PersonRepository;
 import com.duke.carregistration.services.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -27,6 +25,10 @@ public class PersonServiceImpl implements PersonService {
             personsListDto.add(personMapper.toDto(person));
         }
         return personsListDto;
+    }
+
+    public Long getAllPersonsCount() {
+        return personRepository.getPersonsCount();
     }
 
     public PersonDto getPersonById(UUID id) {

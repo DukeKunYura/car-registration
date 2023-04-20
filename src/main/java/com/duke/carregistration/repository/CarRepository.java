@@ -12,4 +12,6 @@ public interface CarRepository extends JpaRepository<Car, UUID> {
     Car findCarById(UUID id);
     @Query("select c from Car c left join fetch c.persons where c.id = :id")
     Car findCarByIdWithPersons(UUID id);
+    @Query(value = "SELECT COUNT(car_id) AS car_count FROM Cars c", nativeQuery = true)
+    Long getCarsCount();
 }

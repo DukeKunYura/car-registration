@@ -3,19 +3,13 @@ package com.duke.carregistration.services.impl;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.UUID;
-
 import com.duke.carregistration.dto.CarDto;
 import com.duke.carregistration.dto.CarWithPersonsDto;
-import com.duke.carregistration.dto.PersonWithCarsDto;
-import com.duke.carregistration.entity.Person;
 import com.duke.carregistration.mappers.CarMapper;
 import com.duke.carregistration.services.CarService;
 import org.springframework.stereotype.Service;
-import com.duke.carregistration.exceptions.ServerException;
-
 import com.duke.carregistration.entity.Car;
 import com.duke.carregistration.repository.CarRepository;
-
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -31,6 +25,10 @@ public class CarServiceImpl implements CarService {
             carsListDto.add(carMapper.toDto(car));
         }
         return carsListDto;
+    }
+
+    public Long getAllCarsCount() {
+        return carRepository.getCarsCount();
     }
 
     public CarDto getCarById(UUID id) {

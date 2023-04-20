@@ -37,6 +37,15 @@ public class RestController {
         return carService.getAllCars();
     }
 
+    @GetMapping(value = "persons_count")
+    public Long getPersonsCount() {
+        return personService.getAllPersonsCount();
+    }
+
+    @GetMapping(value = "cars_count")
+    public Long getCarsCount() {
+        return carService.getAllCarsCount();
+    }
     @GetMapping(value = "person")
     public ResponseEntity<PersonDto> getPersonById(
             @RequestParam(name = "id", required = false) UUID id) {

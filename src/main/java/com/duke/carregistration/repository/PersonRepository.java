@@ -10,7 +10,8 @@ import java.util.UUID;
 @Repository
 public interface PersonRepository extends JpaRepository<Person, UUID> {
     Person findByPassportNumber(String passportNumber);
-
     @Query("select p from Person p left join fetch p.cars where p.id = :id")
     Person findPersonByIdWithCars(UUID id);
+    @Query(value = "SELECT COUNT(person_id) AS person_count FROM Persons p", nativeQuery = true)
+    Long getPersonsCount();
 }
