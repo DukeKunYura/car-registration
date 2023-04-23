@@ -31,6 +31,18 @@ public class PersonServiceImpl implements PersonService {
         return personRepository.getPersonsCount();
     }
 
+    public List<PersonDto> getPersonsWithParams(PersonDto dto) {
+        String firstName = dto.getFirstName();
+        String surname = dto.getSurname();
+        String patronymic = dto.getPatronymic();
+        List<Person> personsList = personRepository.findByFirstNameAndSurnameAndPatronymic(firstName, surname, patronymic);
+        List<PersonDto> personsListDto = new ArrayList<>();
+        for (Person person : personsList) {
+            personsListDto.add(personMapper.toDto(person));
+        }
+        return personsListDto;
+    }
+
     public PersonDto getPersonById(UUID id) {
         Person person = personRepository.findById(id).orElseThrow();
         return personMapper.toDto(person);

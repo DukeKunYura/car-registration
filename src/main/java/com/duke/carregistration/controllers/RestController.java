@@ -32,6 +32,18 @@ public class RestController {
         return personService.getAllPersons();
     }
 
+    @GetMapping(value = "persons_with_params")
+    public List<PersonDto> getPersonsWithParams(
+            @RequestParam(name = "name", required = false) String firstName,
+            @RequestParam(name = "surname", required = false) String surname,
+            @RequestParam(name = "patronymic", required = false) String patronymic) {
+        PersonDto personDto = new PersonDto();
+        personDto.setFirstName(firstName);
+        personDto.setSurname(surname);
+        personDto.setPatronymic(patronymic);
+        return personService.getPersonsWithParams(personDto);
+    }
+
     @GetMapping(value = "cars")
     public List<CarDto> getAllCars() {
         return carService.getAllCars();
@@ -46,6 +58,7 @@ public class RestController {
     public Long getCarsCount() {
         return carService.getAllCarsCount();
     }
+
     @GetMapping(value = "person")
     public ResponseEntity<PersonDto> getPersonById(
             @RequestParam(name = "id", required = false) UUID id) {
@@ -162,7 +175,7 @@ public class RestController {
 
     @PutMapping(path = "person", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PersonDto> editPerson(@RequestParam(name = "id") UUID id,
-            @RequestBody PersonDto newPerson) {
+                                                @RequestBody PersonDto newPerson) {
         try {
             if (newPerson == null || id == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -177,7 +190,7 @@ public class RestController {
 
     @PutMapping(path = "car", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CarDto> editCar(@RequestParam(name = "id") UUID id,
-            @RequestBody CarDto newCar) {
+                                          @RequestBody CarDto newCar) {
         try {
             if (newCar == null || id == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
