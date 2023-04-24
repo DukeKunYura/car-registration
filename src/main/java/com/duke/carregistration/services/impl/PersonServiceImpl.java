@@ -3,6 +3,7 @@ package com.duke.carregistration.services.impl;
 import com.duke.carregistration.dto.PersonDto;
 import com.duke.carregistration.dto.PersonWithCarsDto;
 import com.duke.carregistration.entity.Person;
+import com.duke.carregistration.exceptions.ServerException;
 import com.duke.carregistration.mappers.PersonMapper;
 import com.duke.carregistration.repository.PersonRepository;
 import com.duke.carregistration.services.PersonService;
@@ -35,7 +36,24 @@ public class PersonServiceImpl implements PersonService {
         String firstName = dto.getFirstName();
         String surname = dto.getSurname();
         String patronymic = dto.getPatronymic();
-        List<Person> personsList = personRepository.findByFirstNameAndSurnameAndPatronymic(firstName, surname, patronymic);
+        List<Person> personsList;
+        if (firstName != null && surname != null && patronymic != null) {
+            personsList = personRepository.findByFirstNameAndSurnameAndPatronymic(firstName, surname, patronymic);
+        } else if (firstName != null && surname != null) {
+            personsList = personRepository.findByFirstNameAndSurname(firstName, surname);
+        } else  if (firstName != null && patronymic != null) {
+            personsList = personRepository.findByFirstNameAndPatronymic(firstName, patronymic);
+        } else if (surname != null && patronymic != null) {
+            personsList = personRepository.findBySurnameAndPatronymic(surname, patronymic);
+        } else if (firstName != null) {
+            personsList = personRepository.findByFirstName(firstName);
+        } else if (surname != null) {
+            personsList = personRepository.findBySurname(surname);
+        } else if (patronymic != null) {
+            personsList = personRepository.findByPatronymic(patronymic);
+        } else {
+            personsList = personRepository.findAll();
+        }
         List<PersonDto> personsListDto = new ArrayList<>();
         for (Person person : personsList) {
             personsListDto.add(personMapper.toDto(person));
