@@ -1,4 +1,5 @@
 package com.duke.carregistration.mappers;
+
 import com.duke.carregistration.dto.CarDto;
 import com.duke.carregistration.dto.PersonDto;
 import com.duke.carregistration.dto.PersonWithCarsDto;
@@ -18,6 +19,7 @@ public class PersonMapper {
         dto.setFirstName(person.getFirstName());
         dto.setSurname(person.getSurname());
         dto.setPatronymic(person.getPatronymic());
+        dto.setBirthDate(person.getBirthDate());
         return dto;
     }
 
@@ -28,6 +30,7 @@ public class PersonMapper {
         dto.setFirstName(person.getFirstName());
         dto.setSurname(person.getSurname());
         dto.setPatronymic(person.getPatronymic());
+        dto.setBirthDate(person.getBirthDate());
         CarMapper carMapper = new CarMapper();
         dto.setCars(carMapper.toDtoCarsList(person.getCars()));
         return dto;
@@ -40,6 +43,7 @@ public class PersonMapper {
         person.setFirstName(dto.getFirstName());
         person.setSurname(dto.getSurname());
         person.setPatronymic(dto.getPatronymic());
+        person.setBirthDate(dto.getBirthDate());
         return person;
     }
 

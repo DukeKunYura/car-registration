@@ -16,6 +16,7 @@
             <column name="first_name" type="varchar(255)"/>
             <column name="surname" type="varchar(255)"/>
             <column name="patronymic" type="varchar(255)"/>
+            <column name="birth_date" type="date"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>

@@ -2,6 +2,7 @@ package com.duke.carregistration.dto;
 
 import lombok.Data;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,6 +13,7 @@ public class PersonWithCarsDto {
     private String firstName;
     private String surname;
     private String patronymic;
+    private Date birthDate;
     private List<CarDto> cars;
 
     public void setCars(List<CarDto> cars) {

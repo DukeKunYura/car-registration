@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,10 +29,11 @@ public class Person {
     private String surname;
     @Column(name = "patronymic")
     private String patronymic;
+    @Column(name = "birth_date")
+    private Date birthDate;
     @OneToMany
-    @JoinTable(name = "person_car"
-            , joinColumns = {@JoinColumn(name = "person_id")}
-            , inverseJoinColumns = {@JoinColumn(name = "car_id")})
+    @JoinTable(name = "person_car", joinColumns = { @JoinColumn(name = "person_id") }, inverseJoinColumns = {
+            @JoinColumn(name = "car_id") })
     List<Car> cars = new ArrayList<>();
 
 }
