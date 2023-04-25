@@ -5,8 +5,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,7 +30,7 @@ public class Person {
     @Column(name = "patronymic")
     private String patronymic;
     @Column(name = "birth_date")
-    private Date birthDate;
+    private LocalDate birthDate;
     @OneToMany
     @JoinTable(name = "person_car", joinColumns = { @JoinColumn(name = "person_id") }, inverseJoinColumns = {
             @JoinColumn(name = "car_id") })

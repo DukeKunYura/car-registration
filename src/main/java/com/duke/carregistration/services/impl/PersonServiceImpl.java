@@ -9,7 +9,11 @@ import com.duke.carregistration.repository.PersonRepository;
 import com.duke.carregistration.services.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -59,6 +63,13 @@ public class PersonServiceImpl implements PersonService {
             personsListDto.add(personMapper.toDto(person));
         }
         return personsListDto;
+    }
+
+    public int getPersonAge(UUID id) {
+        Person person = personRepository.findById(id).orElseThrow();
+        LocalDate birthDate = person.getBirthDate();
+        LocalDate currentDate = LocalDate.now();
+            return Period.between(birthDate, currentDate).getYears();
     }
 
     public PersonDto getPersonById(UUID id) {

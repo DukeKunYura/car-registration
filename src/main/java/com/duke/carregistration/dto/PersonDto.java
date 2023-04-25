@@ -2,7 +2,7 @@ package com.duke.carregistration.dto;
 
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
@@ -12,5 +12,5 @@ public class PersonDto {
     private String firstName;
     private String surname;
     private String patronymic;
-    private Date birthDate;
+    private LocalDate birthDate;
 }

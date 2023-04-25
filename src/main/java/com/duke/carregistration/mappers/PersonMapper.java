@@ -1,9 +1,7 @@
 package com.duke.carregistration.mappers;
 
-import com.duke.carregistration.dto.CarDto;
 import com.duke.carregistration.dto.PersonDto;
 import com.duke.carregistration.dto.PersonWithCarsDto;
-import com.duke.carregistration.entity.Car;
 import com.duke.carregistration.entity.Person;
 import org.springframework.stereotype.Component;
 

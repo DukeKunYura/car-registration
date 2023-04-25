@@ -44,6 +44,11 @@ public class RestController {
         return personService.getPersonsWithParams(personDto);
     }
 
+    @GetMapping(value = "person_age")
+    public int getPersonAge(@RequestParam(name = "id") UUID id){
+    return personService.getPersonAge(id);
+    }
+
     @GetMapping(value = "cars")
     public List<CarDto> getAllCars() {
         return carService.getAllCars();
