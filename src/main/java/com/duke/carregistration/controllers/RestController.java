@@ -36,12 +36,13 @@ public class RestController {
     public List<PersonDto> getPersonsWithParams(
             @RequestParam(name = "name", required = false) String firstName,
             @RequestParam(name = "surname", required = false) String surname,
-            @RequestParam(name = "patronymic", required = false) String patronymic) {
+            @RequestParam(name = "patronymic", required = false) String patronymic,
+            @RequestParam(name = "age", required = false) String age) {
         PersonDto personDto = new PersonDto();
         personDto.setFirstName(firstName);
         personDto.setSurname(surname);
         personDto.setPatronymic(patronymic);
-        return personService.getPersonsWithParams(personDto);
+        return personService.getPersonsWithParams(personDto, age);
     }
 
     @GetMapping(value = "person_age")

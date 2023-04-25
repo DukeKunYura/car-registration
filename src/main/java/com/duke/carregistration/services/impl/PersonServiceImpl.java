@@ -36,19 +36,52 @@ public class PersonServiceImpl implements PersonService {
         return personRepository.getPersonsCount();
     }
 
-    public List<PersonDto> getPersonsWithParams(PersonDto dto) {
+    public List<PersonDto> getPersonsWithParams(PersonDto dto, String age) {
         String firstName = dto.getFirstName();
         String surname = dto.getSurname();
         String patronymic = dto.getPatronymic();
         List<Person> personsList;
-        if (firstName != null && surname != null && patronymic != null) {
+        if (firstName != null && surname != null && patronymic != null && age != null) {
+            LocalDate startDate = LocalDate.now().minusYears(Integer.parseInt(age)+1);
+            LocalDate endDate = startDate.plusYears(1);
+            personsList = personRepository.findByFirstNameAndSurnameAndPatronymicAndBirthDateBetween(
+                    firstName, surname, patronymic, startDate, endDate);
+        } else if (firstName != null && surname != null && patronymic != null) {
             personsList = personRepository.findByFirstNameAndSurnameAndPatronymic(firstName, surname, patronymic);
+        } else if (firstName != null && surname != null && age != null) {
+            LocalDate startDate = LocalDate.now().minusYears(Integer.parseInt(age)+1);
+            LocalDate endDate = startDate.plusYears(1);
+            personsList = personRepository.findByFirstNameAndSurnameAndBirthDateBetween(firstName, surname, startDate, endDate);
+        } else if (firstName != null && patronymic != null && age != null) {
+            LocalDate startDate = LocalDate.now().minusYears(Integer.parseInt(age)+1);
+            LocalDate endDate = startDate.plusYears(1);
+            personsList = personRepository.findByFirstNameAndPatronymicAndBirthDateBetween(firstName, patronymic, startDate, endDate);
+        } else if (surname != null && patronymic != null && age != null) {
+            LocalDate startDate = LocalDate.now().minusYears(Integer.parseInt(age)+1);
+            LocalDate endDate = startDate.plusYears(1);
+            personsList = personRepository.findBySurnameAndPatronymicAndBirthDateBetween(surname, patronymic, startDate, endDate);
+        } else if (firstName != null && age != null) {
+            LocalDate startDate = LocalDate.now().minusYears(Integer.parseInt(age)+1);
+            LocalDate endDate = startDate.plusYears(1);
+            personsList = personRepository.findByFirstNameAndBirthDateBetween(firstName, startDate, endDate);
+        } else if (surname != null && age != null) {
+            LocalDate startDate = LocalDate.now().minusYears(Integer.parseInt(age)+1);
+            LocalDate endDate = startDate.plusYears(1);
+            personsList = personRepository.findBySurnameAndBirthDateBetween(surname, startDate, endDate);
+        } else if (patronymic != null && age != null) {
+            LocalDate startDate = LocalDate.now().minusYears(Integer.parseInt(age)+1);
+            LocalDate endDate = startDate.plusYears(1);
+            personsList = personRepository.findByPatronymicAndBirthDateBetween(patronymic, startDate, endDate);
         } else if (firstName != null && surname != null) {
             personsList = personRepository.findByFirstNameAndSurname(firstName, surname);
         } else  if (firstName != null && patronymic != null) {
             personsList = personRepository.findByFirstNameAndPatronymic(firstName, patronymic);
         } else if (surname != null && patronymic != null) {
             personsList = personRepository.findBySurnameAndPatronymic(surname, patronymic);
+        } else if (age != null) {
+            LocalDate startDate = LocalDate.now().minusYears(Integer.parseInt(age)+1);
+            LocalDate endDate = startDate.plusYears(1);
+            personsList = personRepository.findByBirthDateBetween(startDate, endDate);
         } else if (firstName != null) {
             personsList = personRepository.findByFirstName(firstName);
         } else if (surname != null) {
