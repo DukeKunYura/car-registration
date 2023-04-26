@@ -42,12 +42,12 @@ public class RestController {
         personDto.setFirstName(firstName);
         personDto.setSurname(surname);
         personDto.setPatronymic(patronymic);
-        return personService.getPersonsWithParams(personDto, age);
+        return personService.getPersonsWithParams(personDto);
     }
 
     @GetMapping(value = "person_age")
-    public int getPersonAge(@RequestParam(name = "id") UUID id){
-    return personService.getPersonAge(id);
+    public int getPersonAge(@RequestParam(name = "id") UUID id) {
+        return personService.getPersonAge(id);
     }
 
     @GetMapping(value = "cars")
@@ -181,7 +181,7 @@ public class RestController {
 
     @PutMapping(path = "person", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PersonDto> editPerson(@RequestParam(name = "id") UUID id,
-                                                @RequestBody PersonDto newPerson) {
+            @RequestBody PersonDto newPerson) {
         try {
             if (newPerson == null || id == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -196,7 +196,7 @@ public class RestController {
 
     @PutMapping(path = "car", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CarDto> editCar(@RequestParam(name = "id") UUID id,
-                                          @RequestBody CarDto newCar) {
+            @RequestBody CarDto newCar) {
         try {
             if (newCar == null || id == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
