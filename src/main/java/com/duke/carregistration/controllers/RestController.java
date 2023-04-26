@@ -38,14 +38,14 @@ public class RestController {
             @RequestParam(name = "name", required = false) String firstName,
             @RequestParam(name = "surname", required = false) String surname,
             @RequestParam(name = "patronymic", required = false) String patronymic,
-            @RequestParam(name = "birth_date", required = false) String birthDate,
+            @RequestParam(name = "birth_date", required = false) LocalDate birthDate,
             @RequestParam(name = "max_age", required = false) String minAge,
             @RequestParam(name = "max_age", required = false) String maxAge) {
         PersonDto personDto = new PersonDto();
         personDto.setFirstName(firstName);
         personDto.setSurname(surname);
         personDto.setPatronymic(patronymic);
-        personDto.setBirthDate(LocalDate.parse(birthDate));
+        personDto.setBirthDate(birthDate);
         return personService.getPersonsWithParams(personDto);
     }
 
