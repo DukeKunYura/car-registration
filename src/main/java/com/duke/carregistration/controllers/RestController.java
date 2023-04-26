@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,17 +38,20 @@ public class RestController {
             @RequestParam(name = "name", required = false) String firstName,
             @RequestParam(name = "surname", required = false) String surname,
             @RequestParam(name = "patronymic", required = false) String patronymic,
-            @RequestParam(name = "age", required = false) String age) {
+            @RequestParam(name = "birth_date", required = false) String birthDate,
+            @RequestParam(name = "max_age", required = false) String minAge,
+            @RequestParam(name = "max_age", required = false) String maxAge) {
         PersonDto personDto = new PersonDto();
         personDto.setFirstName(firstName);
         personDto.setSurname(surname);
         personDto.setPatronymic(patronymic);
+        personDto.setBirthDate(LocalDate.parse(birthDate));
         return personService.getPersonsWithParams(personDto);
     }
 
     @GetMapping(value = "person_age")
-    public int getPersonAge(@RequestParam(name = "id") UUID id) {
-        return personService.getPersonAge(id);
+    public int getPersonAge(@RequestParam(name = "id") UUID id){
+    return personService.getPersonAge(id);
     }
 
     @GetMapping(value = "cars")
@@ -181,7 +185,7 @@ public class RestController {
 
     @PutMapping(path = "person", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PersonDto> editPerson(@RequestParam(name = "id") UUID id,
-            @RequestBody PersonDto newPerson) {
+                                                @RequestBody PersonDto newPerson) {
         try {
             if (newPerson == null || id == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -196,7 +200,7 @@ public class RestController {
 
     @PutMapping(path = "car", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CarDto> editCar(@RequestParam(name = "id") UUID id,
-            @RequestBody CarDto newCar) {
+                                          @RequestBody CarDto newCar) {
         try {
             if (newCar == null || id == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
