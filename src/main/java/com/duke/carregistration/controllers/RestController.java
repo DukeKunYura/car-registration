@@ -46,7 +46,7 @@ public class RestController {
         personDto.setSurname(surname);
         personDto.setPatronymic(patronymic);
         personDto.setBirthDate(birthDate);
-        return personService.getPersonsWithParams(personDto);
+        return personService.getPersonsWithParamsAndAge(personDto, minAge, maxAge);
     }
 
     @GetMapping(value = "person_age")

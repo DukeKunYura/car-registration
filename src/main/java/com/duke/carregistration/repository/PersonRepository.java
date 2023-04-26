@@ -3,6 +3,7 @@ package com.duke.carregistration.repository;
 import com.duke.carregistration.entity.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -36,4 +37,20 @@ public interface PersonRepository extends JpaRepository<Person, UUID> {
     Person findPersonByIdWithCars(UUID id);
     @Query(value = "SELECT COUNT(person_id) AS person_count FROM Persons p", nativeQuery = true)
     Long getPersonsCount();
+    @Query("SELECT p FROM Person p WHERE (:firstName is null or p.firstName = :firstName) " +
+            "and (:surname is null or p.surname = :surname) " +
+            "and (:patronymic is null or p.patronymic = :patronymic) ")
+    List<Person> findPersonsByParamsAndAge2(@Param("firstName") String firstName,
+                                        @Param("surname") String surname,
+                                        @Param("patronymic") String patronymic);
+
+    @Query("SELECT p FROM Person p WHERE (:firstName is null or p.firstName = :firstName) " +
+            "and (:surname is null or p.surname = :surname) " +
+            "and (:patronymic is null or p.patronymic = :patronymic) " +
+            "and (:minAge is null or p.birthDate >= :minAge)" +
+            "and (:maxAge is null or p.birthDate <= :maxAge)")
+    List<Person> findPersonsByParamsAndAge(@Param("minAge") LocalDate minAgeDate, @Param("maxAge") LocalDate maxAgeDate,
+                                           @Param("firstName") String firstName,
+                                           @Param("surname") String surname,
+                                           @Param("patronymic") String patronymic);
 }

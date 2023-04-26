@@ -43,6 +43,16 @@ public class PersonServiceImpl implements PersonService {
         return personMapper.toDtoPersonsList(persons);
     }
 
+    public List<PersonDto> getPersonsWithParamsAndAge(PersonDto dto, String minAge, String maxAge) {
+        LocalDate minAgeDate = LocalDate.now().minusYears(Integer.parseInt(minAge) + 1);
+        LocalDate maxAgeDate = LocalDate.now().minusYears(Integer.parseInt(maxAge) + 1);
+        String firstName = dto.getFirstName();
+        String surname = dto.getSurname();
+        String patronymic = dto.getPatronymic();
+        List<Person> persons = personRepository.findPersonsByParamsAndAge(minAgeDate, maxAgeDate, firstName, surname, patronymic);
+        return personMapper.toDtoPersonsList(persons);
+    }
+
     public List<PersonDto> getPersonsWithParamsMonster(PersonDto dto, String age) {
         String firstName = dto.getFirstName();
         String surname = dto.getSurname();
