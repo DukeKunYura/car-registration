@@ -4,6 +4,7 @@ import com.duke.carregistration.dto.CarDto;
 import com.duke.carregistration.dto.CarWithPersonsDto;
 import com.duke.carregistration.dto.PersonDto;
 import com.duke.carregistration.dto.PersonWithCarsDto;
+import com.duke.carregistration.filters.PersonFilter;
 import com.duke.carregistration.kit.PairId;
 import com.duke.carregistration.services.impl.CarRegistrationServiceImpl;
 import com.duke.carregistration.services.impl.CarServiceImpl;
@@ -39,14 +40,16 @@ public class RestController {
             @RequestParam(name = "surname", required = false) String surname,
             @RequestParam(name = "patronymic", required = false) String patronymic,
             @RequestParam(name = "birth_date", required = false) LocalDate birthDate,
-            @RequestParam(name = "max_age", required = false) String minAge,
+            @RequestParam(name = "min_age", required = false) String minAge,
             @RequestParam(name = "max_age", required = false) String maxAge) {
-        PersonDto personDto = new PersonDto();
-        personDto.setFirstName(firstName);
-        personDto.setSurname(surname);
-        personDto.setPatronymic(patronymic);
-        personDto.setBirthDate(birthDate);
-        return personService.getPersonsWithParamsAndAge(personDto, minAge, maxAge);
+        PersonFilter filter = new PersonFilter();
+        filter.setFirstName(firstName);
+        filter.setSurname(surname);
+        filter.setPatronymic(patronymic);
+        filter.setBirthDate(birthDate);
+        if (minAge != null) {filter.setMinAgeDate(LocalDate.now().minusYears(Integer.parseInt(minAge)));}
+        if (maxAge != null) {filter.setMaxAgeDate(LocalDate.now().minusYears(Integer.parseInt(maxAge)+1));}
+        return personService.getPersonsWithParamsAndAge(filter);
     }
 
     @GetMapping(value = "person_age")

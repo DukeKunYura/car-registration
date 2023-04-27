@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface PersonRepository extends JpaRepository<Person, UUID> {
+public interface PersonRepository extends JpaRepository<Person, UUID>, PersonRepositoryCustom {
     Person findByPassportNumber(String passportNumber);
     List<Person> findByFirstNameAndSurnameAndPatronymicAndBirthDateBetween(
             String firstName, String surname, String patronymic, LocalDate startDate, LocalDate endDate);
@@ -53,4 +53,5 @@ public interface PersonRepository extends JpaRepository<Person, UUID> {
                                            @Param("firstName") String firstName,
                                            @Param("surname") String surname,
                                            @Param("patronymic") String patronymic);
+
 }

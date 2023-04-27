@@ -4,8 +4,10 @@ import com.duke.carregistration.dto.PersonDto;
 import com.duke.carregistration.dto.PersonWithCarsDto;
 import com.duke.carregistration.entity.Person;
 import com.duke.carregistration.exceptions.ServerException;
+import com.duke.carregistration.filters.PersonFilter;
 import com.duke.carregistration.mappers.PersonMapper;
 import com.duke.carregistration.repository.PersonRepository;
+import com.duke.carregistration.repository.impl.PersonRepositoryCustomImpl;
 import com.duke.carregistration.services.PersonService;
 import lombok.RequiredArgsConstructor;
 
@@ -24,6 +26,7 @@ import java.util.UUID;
 public class PersonServiceImpl implements PersonService {
     private final PersonRepository personRepository;
     private final PersonMapper personMapper;
+    private final PersonRepositoryCustomImpl personRepositoryCustom;
 
     public List<PersonDto> getAllPersons() {
         List<Person> personsList = personRepository.findAll();
@@ -43,13 +46,8 @@ public class PersonServiceImpl implements PersonService {
         return personMapper.toDtoPersonsList(persons);
     }
 
-    public List<PersonDto> getPersonsWithParamsAndAge(PersonDto dto, String minAge, String maxAge) {
-        LocalDate minAgeDate = LocalDate.now().minusYears(Integer.parseInt(minAge) + 1);
-        LocalDate maxAgeDate = LocalDate.now().minusYears(Integer.parseInt(maxAge) + 1);
-        String firstName = dto.getFirstName();
-        String surname = dto.getSurname();
-        String patronymic = dto.getPatronymic();
-        List<Person> persons = personRepository.findPersonsByParamsAndAge(minAgeDate, maxAgeDate, firstName, surname, patronymic);
+    public List<PersonDto> getPersonsWithParamsAndAge(PersonFilter filter) {
+        List<Person> persons = personRepositoryCustom.findPersonsByFilter(filter);
         return personMapper.toDtoPersonsList(persons);
     }
 
