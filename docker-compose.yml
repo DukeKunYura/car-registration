@@ -1,19 +1,50 @@
-version: '3'
+version: '3.8'
 
 services:
-  postgres:
-    image: 'postgres:10'
-    container_name: 'java-postgres'
+  db:
+    image: postgres:15
+    restart: always
     environment:
       POSTGRES_USER: duke
       POSTGRES_PASSWORD: 1234
-#      POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_DB: personal-cars
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
 
   app:
-    build: ./
-    container_name: 'java-app'
+    build: .
+    restart: always
     ports:
-      - '8080:8080'
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/personal-cars
+      SPRING_DATASOURCE_USERNAME: duke
+      SPRING_DATASOURCE_PASSWORD: 1234
 
+volumes:
+  postgres-data:
+
+#   to run locally
+
+#services:
+#  postgres:
+#    image: 'postgres:10'
+#    container_name: 'java-postgres'
+#    environment:
+#      POSTGRES_USER: duke
+#      POSTGRES_PASSWORD: 1234
+#      #      POSTGRES_HOST_AUTH_METHOD: trust
+#      POSTGRES_DB: personal-cars
+#
+#  app:
+#    build: ./
+#    container_name: 'java-app'
+#    ports:
+#      - '8080:8080'
+
+#  change java-postgres:5432 --> localhost:5432 in application.properties
 #  docker run --name java-postgres -p 5432:5432 -e POSTGRES_USER=duke -e POSTGRES_PASSWORD=1234 -e POSTGRES_DB=personal-cars -d postgres:15
